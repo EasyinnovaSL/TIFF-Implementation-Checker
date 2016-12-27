@@ -148,6 +148,8 @@ public class ImplementationCheckerLoader {
     if (isoPaths == null) {
       List<String> list = new ArrayList<>();
       String path = "implementationcheckers";
+
+      // Read from classpath
       try {
         Class cls = ImplementationCheckerLoader.class;
         ClassLoader cLoader = cls.getClassLoader();
@@ -161,6 +163,11 @@ public class ImplementationCheckerLoader {
           }
         }
       } catch (Exception e) {
+        list = new ArrayList<>();
+      }
+
+      if (list.isEmpty()) {
+        // Read from jar
         try {
           CodeSource src = ImplementationCheckerLoader.class.getProtectionDomain().getCodeSource();
           if (src != null) {
@@ -169,13 +176,13 @@ public class ImplementationCheckerLoader {
             ZipEntry zipFile;
             while ((zipFile = zip.getNextEntry()) != null) {
               String name = zipFile.getName();
-              if (name.endsWith(".xml") && name.contains("implementationcheckers")) {
+              if (name.endsWith(".xml") && name.startsWith("implementationcheckers")) {
                 list.add(name);
               }
             }
           }
         } catch (Exception ex) {
-
+          list = new ArrayList<>();
         }
       }
       isoPaths = list;
