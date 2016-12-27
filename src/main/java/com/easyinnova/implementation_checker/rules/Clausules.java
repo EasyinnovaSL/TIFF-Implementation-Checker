@@ -44,6 +44,8 @@ public class Clausules {
     while (expr.startsWith("{")) {
       try {
         Clausule cla = new Clausule();
+        if (expr.indexOf("}") == -1)
+          expr.toString();
         cla.value = expr.substring(1, expr.indexOf("}"));
         cla.operator = operator;
         clausules.add(cla);

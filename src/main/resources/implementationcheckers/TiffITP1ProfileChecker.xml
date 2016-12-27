@@ -693,7 +693,7 @@
             <reference>
                 <section>Section 7.7.3: TIFF/IT-BP, TIFF/IT-BP/P1 and TIFF/IT-BP/P2 encoding</section><page>38</page>
             </reference>
-            <assert test="{tags.tag[name=Compression] == 1}}">Invalid Compression for Binary picture (BP) file</assert>
+            <assert test="{tags.tag[name=Compression] == 1}">Invalid Compression for Binary picture (BP) file</assert>
         </rule>
         <rule id="TIFF-IT-BP-P1-0003" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP/P1 PhotometricInterpretation valid value</title>

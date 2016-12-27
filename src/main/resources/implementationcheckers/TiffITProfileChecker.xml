@@ -895,11 +895,11 @@
             <assert test="{tags.tag[name=DotRange].cardinality == 2}">DotRange invalid cardinality, DotRange Tag cardinality must be equal 2 </assert>
         </rule>
 
-        <rule id="TAG-336-0004" context="tag[id=336]" level="warning">
+        <rule id="TAG-336-0004" context="tag[id=336]" level="warning" experimental="true">
             <title>DotRange used to revers pixel values</title>
             <description>It is strongly discouraged that a CMYK TIFF writer attempt to use this field to reverse the sense of the pixel values so that smaller values mean more ink instead of less ink. That is, DotRange[0] should be less than DotRange[1].</description>
             <reference><section>Section 7.2.8: Colour specification</section><page>18</page></reference>
-            <assert test="{tags.tag[name=InkNames](0) &gt; tags.tag[name=InkNames](1)">InkNames used to reverse the sense of the pixel, That is strongly discouraged</assert>
+            <assert test="{tags.tag[name=InkNames](0) &gt; tags.tag[name=InkNames](1)}">InkNames used to reverse the sense of the pixel, That is strongly discouraged</assert>
         </rule>
 
         <rule id="TAG-336-0005" context="ifd" level="warning">
