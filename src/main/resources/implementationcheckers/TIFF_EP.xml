@@ -16,7 +16,7 @@
     <author>Easy Innova</author>
     <date>2016-09-20</date>
     
- <include><policyChecker>./TIFF_Baseline_Extended_6_0.xml</policyChecker>
+ <include><policyChecker>TIFF_Baseline_Extended_6_0.xml</policyChecker>
      <excluderules>TAG-254-0003</excluderules>
      <excluderules>TAG-254-0004</excluderules>
      <excluderules>TAG-254-0005</excluderules>

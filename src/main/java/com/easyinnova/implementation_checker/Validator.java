@@ -116,7 +116,7 @@ public class Validator {
     }
 
     for (RuleType rule : ordRules) {
-      if (rule.getId().equals("IFD-0012"))
+      if (rule.getId().equals("TIFF-IT-CT-RGB-0001"))
         rule.toString();
 
       String context = rule.getContext();

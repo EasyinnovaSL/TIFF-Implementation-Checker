@@ -400,7 +400,7 @@
                 <section>Section 7.2.6: Data format</section>
                 <page>13</page>
             </reference>
-            <assert test="{tags.tag[name=RasterPadding] &amp;&amp; 0} || {tags.tag[name=RasterPadding] &amp;&amp; 1} || {tags.tag[name=RasterPadding] &amp;&amp; 2} || {tags.tag[name=RasterPadding] &amp;&amp; 9} || {tags.tag[name=RasterPadding] &amp;&amp; 10}">RasterPadding invalid value.</assert>
+            <assert test="{tags.tag[name=RasterPadding] == 0} || {tags.tag[name=RasterPadding] == 1} || {tags.tag[name=RasterPadding] == 2} || {tags.tag[name=RasterPadding] == 9} || {tags.tag[name=RasterPadding] == 10}">RasterPadding invalid value.</assert>
         </rule>
 
         <rule id="TAG-34019-0005" context="ifd[class=image]" level="info">
@@ -1471,23 +1471,23 @@
             field 259 (Compression) indicates the presence of such padding.
         </description>
 
-        <rule id="TIFF-IT-CT-0001" context="ifd[filetype=ct,imgtype=norgblab]" level="error">
+        <rule id="TIFF-IT-CT-0001" context="ifd[filetype=ct]" level="error" experimental="true">
             <title>TIFF/IT-CT BitsPerSample valid values for CMYK</title>
             <description>BitsPerSample on a colour continuous-tone picture (CT) CMYK file without InkSet tag must be [8,8,8,8] or [16,16,16,16]</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>24</page>
             </reference>
-            <assert test="{type != 'CMYK'} || tags.tag[name=InkSet]} || {tags.tag[name=InkSet != 2} || {tags.tag[name=BitsPerSample] == '8,8,8,8'} || {tags.tag[name=BitsPerSample] == '16,16,16,16'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8,8] or [16,16,16,16]</assert>
+            <assert test="{imgtype!='norgblab'} || {type != 'CMYK'} || {tags.tag[name=InkSet]} || {tags.tag[name=InkSet] != 2} || {tags.tag[name=BitsPerSample] == '8,8,8,8'} || {tags.tag[name=BitsPerSample] == '16,16,16,16'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8,8] or [16,16,16,16]</assert>
         </rule>
-        <rule id="TIFF-IT-CT-0002" context="ifd[filetype=ct,imgtype=norgblab]" level="error">
+        <rule id="TIFF-IT-CT-0002" context="ifd[filetype=ct]" level="error" experimental="true">
             <title>TIFF/IT-CT BitsPerSample valid values YCbCr</title>
             <description>BitsPerSample on a colour continuous-tone picture (CT) file must be [8,8,8] or [16,16,16]</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>24</page>
             </reference>
-            <assert test="{type != 'YCbCr'} || {tags.tag[name=BitsPerSample] == '8,8,8'} || {tags.tag[name=BitsPerSample] == '16,16,16'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8] or [16,16,16]</assert>
+            <assert test="{imgtype!='norgblab'} || {type != 'YCbCr'} || {tags.tag[name=BitsPerSample] == '8,8,8'} || {tags.tag[name=BitsPerSample] == '16,16,16'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8] or [16,16,16]</assert>
         </rule>
-        <rule id="TIFF-IT-CT-0003" context="ifd[filetype=ct,imgtype=norgblab]" level="error">
+        <rule id="TIFF-IT-CT-0003" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT Compression valid values</title>
             <description>Compression valid values for colour continuous-tone picture (CT) are:
                 1 = No compression
@@ -1498,15 +1498,15 @@
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{tags.tag[name=Compression] == 1} || {tags.tag[name=Compression] == 7} || {tags.tag[name=Compression] == 8} || {tags.tag[name=Compression] == 32895}">Invalid Compression value for colour continuous-tone picture (CT) image</assert>
+            <assert test="{imgtype!='norgblab'} || {tags.tag[name=Compression] == 1} || {tags.tag[name=Compression] == 7} || {tags.tag[name=Compression] == 8} || {tags.tag[name=Compression] == 32895}">Invalid Compression value for colour continuous-tone picture (CT) image</assert>
         </rule>
-        <rule id="TIFF-IT-CT-0004" context="ifd[filetype=ct,imgtype=norgblab]" level="error">
+        <rule id="TIFF-IT-CT-0004" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT Compression valid for YCbCr</title>
             <description>The only valid Compression value for colour continuous-tone picture (CT) YCbCr image is JPEG encoding scheme ('new-style' JPEG)</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{type != 'YCbCr'} || {tags.tag[name=Compression] == 7}">YCbCr images shall be used with JPEG encoding scheme ('new-style' JPEG)</assert>
+            <assert test="{imgtype!='norgblab'} || {type != 'YCbCr'} || {tags.tag[name=Compression] == 7}">YCbCr images shall be used with JPEG encoding scheme ('new-style' JPEG)</assert>
         </rule>
         <rule id="TIFF-IT-CT-0005" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT PhotometricInterpretation valid values</title>
@@ -1521,29 +1521,29 @@
             </reference>
             <assert test="{tags.tag[name=PhotometricInterpretation] == 2} || {tags.tag[name=PhotometricInterpretation] == 5} || {tags.tag[name=PhotometricInterpretation] == 6} || {tags.tag[name=PhotometricInterpretation] == 8}">Invalid PhotometricInterpretation value for colour continuous-tone picture (CT) image</assert>
         </rule>
-        <rule id="TIFF-IT-CT-0006" context="ifd[filetype=ct,imgtype=norgblab]" level="error">
+        <rule id="TIFF-IT-CT-0006" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT SamplesPerPixel valid values for CMYK</title>
             <description>SamplesPerPixel on a colour continuous-tone picture (CT) CMYK image without InkSet tag must be 4</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{type != 'CMYK'} || tags.tag[name=InkSet]} || {tags.tag[name=InkSet != 2} || {tags.tag[name=SamplesPerPixel] == 4}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) CMYK image without InkSet tag should be 4</assert>
+            <assert test="{imgtype!='norgblab'} || {type != 'CMYK'} || {tags.tag[name=InkSet]} || {tags.tag[name=InkSet] != 2} || {tags.tag[name=SamplesPerPixel] == 4}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) CMYK image without InkSet tag should be 4</assert>
         </rule>
-        <rule id="TIFF-IT-CT-0007" context="ifd[filetype=ct,imgtype=norgblab]" level="error">
+        <rule id="TIFF-IT-CT-0007" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT SamplesPerPixel valid values for YCbCr</title>
             <description>SamplesPerPixel on a colour continuous-tone picture (CT) YCbCr image must be 3</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{type != 'YCbCr'} || {tags.tag[name=SamplesPerPixel] == 3}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) YCbCr image should be 3</assert>
+            <assert test="{imgtype!='norgblab'} || {type != 'YCbCr'} || {tags.tag[name=SamplesPerPixel] == 3}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) YCbCr image should be 3</assert>
         </rule>
-        <rule id="TIFF-IT-CT-0008" context="ifd[filetype=ct,imgtype=norgblab]" level="error" experimental="true">
+        <rule id="TIFF-IT-CT-0008" context="ifd[filetype=ct]" level="error" experimental="true">
             <title>TIFF/IT-CT InkSet match ColorSequence</title>
             <description>If InkSet tag is used and ColorSequence tag value is the default value of 'CMYK', InkSet shall have the value of 1. Otherwise, it shall have the value of 2.</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{!tags.tag[name=InkSet]} || tags.tag[name=InkSet]!=1} || {!tags.tag[name=ColorSequence]} || {tags.tag[name=ColorSequence]=='CMYK'}">Inkset value not match with ColorSequence value.</assert>
+            <assert test="{imgtype!='norgblab'} || {!tags.tag[name=InkSet]} || {tags.tag[name=InkSet]!=1} || {!tags.tag[name=ColorSequence]} || {tags.tag[name=ColorSequence]=='CMYK'}">Inkset value not match with ColorSequence value.</assert>
         </rule>
         <rule id="TIFF-IT-CT-0009" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT NumberOfInks valid value</title>
@@ -1554,29 +1554,29 @@
             <assert test="{!tags.tag[name=NumberOfInks]} || {tags.tag[name=NumberOfInks] == tags.tag[name=SamplesPerPixel]}">MumberOfInks value not match with SamplesPerPixel</assert>
         </rule>
 
-        <rule id="TIFF-IT-CT-0010" context="ifd[filetype=ct,imgtype=norgblab]]" level="error">
+        <rule id="TIFF-IT-CT-0010" context="ifd[filetype=ct]]" level="error">
             <title>TIFF/IT-CT ColorSequence valid values</title>
             <description>ColorSequence on a colour continuous-tone picture (CT) file must be CMYK or YMCK</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || tags.tag[name=ColorSequence] == 'YMCK'}">ColorSequence invalid value. The only valid values for ColorSequence are CMYK or YMCK</assert>
+            <assert test="{imgtype!='norgblab'} || {tags.tag[name=ColorSequence] == 'CMYK'} || {tags.tag[name=ColorSequence] == 'YMCK'}">ColorSequence invalid value. The only valid values for ColorSequence are CMYK or YMCK</assert>
         </rule>
-        <rule id="TIFF-IT-CT-0011" context="ifd[filetype=ct,imgtype=norgblab]]" level="error">
+        <rule id="TIFF-IT-CT-0011" context="ifd[filetype=ct]]" level="error">
             <title>TIFF/IT-CT RasterPadding used</title>
             <description>When RasterPadding is used Compression must be 32895</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{!tags.tag[name=RasterPadding]} || {tags.tag[name=Compression] == 32895} ">RasterPadding used with incorrect compression. Compression should be IT8CTPAD (32895)</assert>
+            <assert test="{imgtype!='norgblab'} || {!tags.tag[name=RasterPadding]} || {tags.tag[name=Compression] == 32895} ">RasterPadding used with incorrect compression. Compression should be IT8CTPAD (32895)</assert>
         </rule>
-        <rule id="TIFF-IT-CT-0012" context="ifd[filetype=ct,imgtype=norgblab]]" level="error" experimental="true">
+        <rule id="TIFF-IT-CT-0012" context="ifd[filetype=ct]]" level="error" experimental="true">
             <title>TIFF/IT-CT CMYKEquivalent cardinality</title>
             <description>The CMYKEquivalent cardinality is the value of SamplesPerPixel multiplied by 4</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{!tags.tag[name=CMYKEquivalent]} || {tags.tag[name=CMYKEquivalent].cardinaly == tags.tag[name=SamplePerPixel] * 4}">RasterPadding used with incorrect compression. Compression should be IT8CTPAD (32895)</assert>
+            <assert test="{imgtype!='norgblab'} || {!tags.tag[name=CMYKEquivalent]} || {tags.tag[name=CMYKEquivalent].cardinaly == tags.tag[name=SamplePerPixel] * 4}">RasterPadding used with incorrect compression. Compression should be IT8CTPAD (32895)</assert>
         </rule>
     </rules>
 
@@ -1600,15 +1600,15 @@
             PhotometricInterpretation value of 2 shall read all three of the formats.
         </description>
 
-        <rule id="TIFF-IT-CT-RGB-0001" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0001" context="ifd[filetype=ct]" level="error" experimental="true">
             <title>TIFF/IT-CT BitsPerSample valid values for RGB</title>
             <description>BitsPerSample on a colour continuous-tone picture (CT) RGB image must be [8,8,8] or [16,16,16]</description>
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{tags.tag[name=BitsPerSample] == '8,8,8'} || {tags.tag[name=BitsPerSample] == '16,16,16'}">Invalid BitsPerSample on a colour continuous-tone picture (CT) RGB image. BitsPerSample value should be [8,8,8] or [16,16,16]</assert>
+            <assert test="{imgtype!='rgb'} || {tags.tag[name=BitsPerSample] == '8,8,8'} || {tags.tag[name=BitsPerSample] == '16,16,16'}">Invalid BitsPerSample on a colour continuous-tone picture (CT) RGB image. BitsPerSample value should be [8,8,8] or [16,16,16]</assert>
         </rule>
-        <rule id="TIFF-IT-CT-RGB-0002" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0002" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT Compression valid values for RGB</title>
             <description>Compression valid values for colour continuous-tone picture (CT) are:
                 1 = No compression
@@ -1617,65 +1617,65 @@
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{tags.tag[name=Compression] == 1} || {tags.tag[name=Compression] == 7} || {tags.tag[name=Compression] == 8}">Invalid Compression value for colour continuous-tone picture (CT) RGB image</assert>
+            <assert test="{imgtype!='rgb'} || {tags.tag[name=Compression] == 1} || {tags.tag[name=Compression] == 7} || {tags.tag[name=Compression] == 8}">Invalid Compression value for colour continuous-tone picture (CT) RGB image</assert>
         </rule>
-        <rule id="TIFF-IT-CT-RGB-0003" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0003" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT SamplesPerPixel valid values for RGB</title>
             <description>BitsPerSample on a colour continuous-tone picture (CT) RGB image must be 3</description>
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{tags.tag[name=SamplesPerPixel] == 3}">Invalid BitsPerSample value. BitPerSample on a colour continuous-tone picture (CT) RGB image should be 3</assert>
+            <assert test="{imgtype!='rgb'} || {tags.tag[name=SamplesPerPixel] == 3}">Invalid BitsPerSample value. BitPerSample on a colour continuous-tone picture (CT) RGB image should be 3</assert>
         </rule>
-        <rule id="TIFF-IT-CT-RGB-0004" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0004" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT InkSet is  forbidden for RGB image</title>
             <description>InkSet is forbidden on a colour continuous-tone picture (CT) in RGB </description>
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{!tags.tag[name=InkSet]}">InkSet is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
+            <assert test="{imgtype!='rgb'} || {!tags.tag[name=InkSet]}">InkSet is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
         </rule>
-        <rule id="TIFF-IT-CT-RGB-0005" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0005" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT NumberOfInks is  forbidden for RGB image</title>
             <description>NumberOfInks is forbidden on a colour continuous-tone picture (CT) in RGB </description>
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{!tags.tag[name=NumberOfInks]}">NumberOfInks is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
+            <assert test="{imgtype!='rgb'} || {!tags.tag[name=NumberOfInks]}">NumberOfInks is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
         </rule>
-        <rule id="TIFF-IT-CT-RGB-0006" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0006" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT DotRange is  forbidden for RGB image</title>
             <description>DotRange is forbidden on a colour continuous-tone picture (CT) in RGB </description>
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{!tags.tag[name=DotRange]}">DotRange is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
+            <assert test="{imgtype!='rgb'} || {!tags.tag[name=DotRange]}">DotRange is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
         </rule>
-        <rule id="TIFF-IT-CT-RGB-0007" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0007" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT ColorSequence is  forbidden for RGB image</title>
             <description>ColorSequence is forbidden on a colour continuous-tone picture (CT) in RGB </description>
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{!tags.tag[name=ColorSequence]}">ColorSequence is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
+            <assert test="{imgtype!='rgb'} || {!tags.tag[name=ColorSequence]}">ColorSequence is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
         </rule>
-        <rule id="TIFF-IT-CT-RGB-0008" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0008" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT IT8Header is  forbidden for RGB image</title>
             <description>IT8Header is forbidden on a colour continuous-tone picture (CT) in RGB </description>
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{!tags.tag[name=IT8Header]}">IT8Header is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
+            <assert test="{imgtype!='rgb'} || {!tags.tag[name=IT8Header]}">IT8Header is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
         </rule>
-        <rule id="TIFF-IT-CT-RGB-0009" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0009" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT RasterPadding is  forbidden for RGB image</title>
             <description>RasterPadding is forbidden on a colour continuous-tone picture (CT) in RGB </description>
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{!tags.tag[name=RasterPadding]}">RasterPadding is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
+            <assert test="{imgtype!='rgb'} || {!tags.tag[name=RasterPadding]}">RasterPadding is forbidden on a colour continuous-tone picture (CT) in RGB </assert>
         </rule>
-        <rule id="TIFF-IT-CT-RGB-0010" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-RGB-0010" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT PhotometricInterpretation valid value for RGB image</title>
             <description>PhotometricInterpretation valid values for colour continuous-tone picture (CT) is:
                 2 = RGB. In the RGB model, a color is described as a combination of the three primary colors of light (red, green, and blue) in particular concentrations.
@@ -1683,7 +1683,7 @@
             <reference>
                 <section>Annex G: RGB colour-space data in TIFF/IT-CT</section><page>61</page>
             </reference>
-            <assert test="{tags.tag[name=PhotometricInterpretation] == 2}">Invalid PhotometricInterpretation value for colour continuous-tone picture (CT) RGB image</assert>
+            <assert test="{imgtype!='rgb'} || {tags.tag[name=PhotometricInterpretation] == 2}">Invalid PhotometricInterpretation value for colour continuous-tone picture (CT) RGB image</assert>
         </rule>
     </rules>
 
@@ -1702,15 +1702,15 @@
             value of 8 shall write in any one of the formats. A TIFF/IT-CT reader that reads TIFF/IT-CT file with a
             PhotometricInterpretation value of 8 shall read all three of the formats.</description>
 
-        <rule id="TIFF-IT-CT-CIELAB-0001" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0001" context="ifd[filetype=ct]" level="error" experimental="true">
             <title>TIFF/IT-CT BitsPerSample valid values for CIELab</title>
             <description>BitsPerSample on a colour continuous-tone picture (CT) CIELab image must be [8,8,8] or [16,16,16]</description>
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{tags.tag[name=BitsPerSample] == '8,8,8'} || {tags.tag[name=BitsPerSample] == '16,16,16'}">Invalid BitsPerSample on a colour continuous-tone picture (CT) CIELab image. BitsPerSample value should be [8,8,8] or [16,16,16]</assert>
+            <assert test="{imgtype!='lab'} || {tags.tag[name=BitsPerSample] == '8,8,8'} || {tags.tag[name=BitsPerSample] == '16,16,16'}">Invalid BitsPerSample on a colour continuous-tone picture (CT) CIELab image. BitsPerSample value should be [8,8,8] or [16,16,16]</assert>
         </rule>
-        <rule id="TIFF-IT-CT-CIELAB-0002" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0002" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT Compression valid values for CIELab</title>
             <description>Compression valid values for colour continuous-tone picture (CT) are:
                 1 = No compression
@@ -1719,74 +1719,74 @@
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{tags.tag[name=Compression] == 1} || {tags.tag[name=Compression] == 7} || {tags.tag[name=Compression] == 8}">Invalid Compression value for colour continuous-tone picture (CT) CIELab image</assert>
+            <assert test="{imgtype!='lab'} || {tags.tag[name=Compression] == 1} || {tags.tag[name=Compression] == 7} || {tags.tag[name=Compression] == 8}">Invalid Compression value for colour continuous-tone picture (CT) CIELab image</assert>
         </rule>
-        <rule id="TIFF-IT-CT-CIELAB-0003" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0003" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT SamplesPerPixel valid values for CIELab</title>
             <description>BitsPerSample on a colour continuous-tone picture (CT) CIELab image must be 3</description>
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{tags.tag[name=SamplesPerPixel] == 3}">Invalid BitsPerSample value. BitPerSample on a colour continuous-tone picture (CT) CIELab image should be 3</assert>
+            <assert test="{imgtype!='lab'} || {tags.tag[name=SamplesPerPixel] == 3}">Invalid BitsPerSample value. BitPerSample on a colour continuous-tone picture (CT) CIELab image should be 3</assert>
         </rule>
 
-        <rule id="TIFF-IT-CT-CIELAB-0004" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0004" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT InkSet is  forbidden for CIELab image</title>
             <description>InkSet is forbidden on a colour continuous-tone picture (CT) in CIELab </description>
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{!tags.tag[name=InkSet]}">InkSet is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
+            <assert test="{imgtype!='lab'} || {!tags.tag[name=InkSet]}">InkSet is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
         </rule>
-        <rule id="TIFF-IT-CT-CIELAB-0005" context="ifd[filetype=ct,imgtype=rgb]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0005" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT NumberOfInks is  forbidden for CIELab image</title>
             <description>NumberOfInks is forbidden on a colour continuous-tone picture (CT) in CIELab </description>
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{!tags.tag[name=NumberOfInks]}">NumberOfInks is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
+            <assert test="{imgtype!='lab'} || {!tags.tag[name=NumberOfInks]}">NumberOfInks is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
         </rule>
-        <rule id="TIFF-IT-CT-CIELAB-0006" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0006" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT DotRange is  forbidden for CIELab image</title>
             <description>DotRange is forbidden on a colour continuous-tone picture (CT) in CIELab </description>
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{!tags.tag[name=DotRange]}">DotRange is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
+            <assert test="{imgtype!='lab'} || {!tags.tag[name=DotRange]}">DotRange is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
         </rule>
-        <rule id="TIFF-IT-CT-CIELAB-0007" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0007" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT ColorSequence is  forbidden for CIELab image</title>
             <description>ColorSequence is forbidden on a colour continuous-tone picture (CT) in CIELab </description>
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{!tags.tag[name=ColorSequence]}">ColorSequence is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
+            <assert test="{imgtype!='lab'} || {!tags.tag[name=ColorSequence]}">ColorSequence is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
         </rule>
-        <rule id="TIFF-IT-CT-CIELAB-0008" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0008" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT IT8Header is  forbidden for CIELab image</title>
             <description>IT8Header is forbidden on a colour continuous-tone picture (CT) in CIELab </description>
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{!tags.tag[name=IT8Header]}">IT8Header is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
+            <assert test="{imgtype!='lab'} || {!tags.tag[name=IT8Header]}">IT8Header is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
         </rule>
-        <rule id="TIFF-IT-CT-CIELAB-0009" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0009" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT RasterPadding is  forbidden for CIELab image</title>
             <description>RasterPadding is forbidden on a colour continuous-tone picture (CT) in CIELab </description>
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{!tags.tag[name=RasterPadding]}">RasterPadding is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
+            <assert test="{imgtype!='lab'} || {!tags.tag[name=RasterPadding]}">RasterPadding is forbidden on a colour continuous-tone picture (CT) in CIELab </assert>
         </rule>
-        <rule id="TIFF-IT-CT-CIELAB-0010" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CT-CIELAB-0010" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT ColorCharacterization is  forbidden for CIELab image</title>
             <description>ColorCharacterization is forbidden on a colour continuous-tone picture (CT) in CIELab</description>
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{!tags.tag[name=ColorCharacterization]}">ColorCharacterization is forbidden on a colour continuous-tone picture (CT) in CIELab</assert>
+            <assert test="{imgtype!='lab'} || {!tags.tag[name=ColorCharacterization]}">ColorCharacterization is forbidden on a colour continuous-tone picture (CT) in CIELab</assert>
         </rule>
-        <rule id="TIFF-IT-CIELAB-0011" context="ifd[filetype=ct,imgtype=lab]" level="error">
+        <rule id="TIFF-IT-CIELAB-0011" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT PhotometricInterpretation valid value for  CIELab image</title>
             <description>PhotometricInterpretation valid values for colour continuous-tone picture (CT) is:
                 8 = CIE L*a*b*.
@@ -1794,7 +1794,7 @@
             <reference>
                 <section>Annex H: LAB colour space data in TIFF/IT CT</section><page>65</page>
             </reference>
-            <assert test="{tags.tag[name=PhotometricInterpretation] == 8}">Invalid PhotometricInterpretation value for colour continuous-tone picture (CT) CIELab image</assert>
+            <assert test="{imgtype!='lab'} || {tags.tag[name=PhotometricInterpretation] == 8}">Invalid PhotometricInterpretation value for colour continuous-tone picture (CT) CIELab image</assert>
         </rule>
     </rules>
 
@@ -1852,7 +1852,7 @@
             <reference>
                 <section>Section 7.4.3: TIFF/IT-LW, TIFF/IT-LW/P1 and TIFF/IT-LW/P2 encoding</section><page>31</page>
             </reference>
-            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence on a colour ine-art picture (LW) file must be CMYK or YMCK</assert>
+            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || {tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence on a colour ine-art picture (LW) file must be CMYK or YMCK</assert>
         </rule>
         <rule id="TIFF-IT-LW-0006" context="ifd[filetype=lw]" level="error">
             <title>TIFF/IT-LW BitsPerRunLength valid value</title>
@@ -1884,7 +1884,7 @@
             <reference>
                 <section>Section 7.4.3: TIFF/IT-LW, TIFF/IT-LW/P1 and TIFF/IT-LW/P2 encoding</section><page>31</page>
             </reference>
-            <assert test="{!tags.tag[name=InkSet]} || tags.tag[name=InkSet]!=1} || {!tags.tag[name=ColorSequence]} || {tags.tag[name=ColorSequence]=='CMYK'}">Inkset value not match with ColorSequence value.</assert>
+            <assert test="{!tags.tag[name=InkSet]} || {tags.tag[name=InkSet]!=1} || {!tags.tag[name=ColorSequence]} || {tags.tag[name=ColorSequence]=='CMYK'}">Inkset value not match with ColorSequence value.</assert>
         </rule>
     </rules>
 
@@ -1911,13 +1911,13 @@
             be written by typical TIFF 6.0 writers because of the mandatory use of TIFF/IT-specific fields and values and nontraditional
             interpretations of other TIFF 6.0 fields and values (e.g. compression by mandatory run-length encoding).
         </description>
-        <rule id="TIFF-IT-HC-0001" context="ifd[filetype=hc]" level="error">
+        <rule id="TIFF-IT-HC-0001" context="ifd[filetype=hc]" level="error" experimental="true">
             <title>TIFF/IT-HC BitsPerSample valid values</title>
             <description>BitsPerSample on a  High-resolution continuous-tone data (HC) file without InkSet tag must be [8,8,8,8]</description>
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="tags.tag[name=InkSet]} || {tags.tag[name=InkSet != 2} || {tags.tag[name=BitsPerSample] == '8,8,8,8'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8,8]</assert>
+            <assert test="tags.tag[name=InkSet]} || {tags.tag[name=InkSet] != 2} || {tags.tag[name=BitsPerSample] == '8,8,8,8'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8,8]</assert>
         </rule>
         <rule id="TIFF-IT-HC-0002" context="ifd[filetype=hc]" level="error">
             <title>TIFF/IT-HC Compression valid value </title>
@@ -1941,7 +1941,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=InkSet]} || {tags.tag[name=InkSet != 2} || {tags.tag[name=SamplesPerPixel] == 4}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) CMYK image without InkSet tag should be 4</assert>
+            <assert test="{tags.tag[name=InkSet]} || {tags.tag[name=InkSet] != 2} || {tags.tag[name=SamplesPerPixel] == 4}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) CMYK image without InkSet tag should be 4</assert>
         </rule>
         <rule id="TIFF-IT-HC-0005" context="ifd[filetype=hc]]" level="error">
             <title>TIFF/IT-HC PlanarConfiguration valid value</title>
@@ -1965,7 +1965,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence for a High-resolution continuous-tone data (HC) must be CMYK or YMCK</assert>
+            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || {tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence for a High-resolution continuous-tone data (HC) must be CMYK or YMCK</assert>
         </rule>
     </rules>
 
@@ -2056,7 +2056,7 @@
             <reference>
                 <section>Section 7.6.3: TIFF/IT-MP, TIFF/IT-MP/P1 and TIFF/IT-MP/P2 encoding</section><page>36</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator] == 1}  || tags.tag[name=ImageColorIndicator] == 0} ">Invalid ImageColorIndicator value. ImageColorIndicator in Monochrome continuous-tone picture (MP) file should be 0 or 1.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator] == 1}  || {tags.tag[name=ImageColorIndicator] == 0} ">Invalid ImageColorIndicator value. ImageColorIndicator in Monochrome continuous-tone picture (MP) file should be 0 or 1.</assert>
         </rule>
     </rules>
 
@@ -2119,7 +2119,7 @@
             <reference>
                 <section>Section 7.7.3: TIFF/IT-BP, TIFF/IT-BP/P1 and TIFF/IT-BP/P2 encoding</section><page>38</page>
             </reference>
-            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence for Monochrome  Binary picture (BP) must be CMYK or YMCK</assert>
+            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || {tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence for Monochrome  Binary picture (BP) must be CMYK or YMCK</assert>
         </rule>
         <rule id="TIFF-IT-BP-0006" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP ImageColorValue mandatory</title>
@@ -2127,7 +2127,7 @@
             <reference>
                 <section>Section 7.7.3: TIFF/IT-BP, TIFF/IT-BP/P1 and TIFF/IT-BP/P2 encoding</section><page>38</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator]!=1} || tags.tag[name=ImageColorValue]}">ImageColorValue is mandatory. If ImageColorIndicator is 1 in Binary picture (BP) file.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator]!=1} || {tags.tag[name=ImageColorValue]}">ImageColorValue is mandatory. If ImageColorIndicator is 1 in Binary picture (BP) file.</assert>
         </rule>
         <rule id="TIFF-IT-BP-0007" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP ImageColorValue forbidden</title>
@@ -2135,7 +2135,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator] || tags.tag[name=ImageColorIndicator]!=0} || !tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Binary picture (BP) file.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator]} || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Binary picture (BP) file.</assert>
         </rule>
         <rule id="TIFF-IT-BP-0008" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP BackgroundColorValue mandatory</title>
@@ -2143,7 +2143,7 @@
             <reference>
                 <section>Section 7.7.3: TIFF/IT-BP, TIFF/IT-BP/P1 and TIFF/IT-BP/P2 encoding</section><page>38</page>
             </reference>
-            <assert test="{tags.tag[name=BackgroundColorIndicator]!=1} || tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is mandatory. If BackgroundColorIndicator is 1 in Binary picture (BP) file.</assert>
+            <assert test="{tags.tag[name=BackgroundColorIndicator]!=1} || {tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is mandatory. If BackgroundColorIndicator is 1 in Binary picture (BP) file.</assert>
         </rule>
         <rule id="TIFF-IT-BP-0009" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP BackgroundColorValue forbidden</title>
@@ -2151,7 +2151,7 @@
             <reference>
                 <section>Section 7.7.3: TIFF/IT-BP, TIFF/IT-BP/P1 and TIFF/IT-BP/P2 encoding</section><page>38</page>
             </reference>
-            <assert test="{tags.tag[name=BackgroundColorIndicator] || tags.tag[name=BackgroundColorIndicator]!=0} || !tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 in Binary picture (BP) file.</assert>
+            <assert test="{tags.tag[name=BackgroundColorIndicator] || {tags.tag[name=BackgroundColorIndicator]!=0} || {!tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 in Binary picture (BP) file.</assert>
         </rule>
     </rules>
 
@@ -2212,7 +2212,7 @@
             <reference>
                 <section>Section 7.8.3: TIFF/IT-BL and TIFF/IT-BL/P1 encoding</section><page>41</page>
             </reference>
-            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence on a Binary line-art (BL) must be CMYK or YMCK</assert>
+            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || {tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence on a Binary line-art (BL) must be CMYK or YMCK</assert>
         </rule>
         <rule id="TIFF-IT-BL-0006" context="ifd[filetype=bl]" level="error">
             <title>TIFF/IT-BL ImageColorValue mandatory</title>
@@ -2220,7 +2220,7 @@
             <reference>
                 <section>Section 7.8.3: TIFF/IT-BL and TIFF/IT-BL/P1 encoding</section><page>41</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator]!=1} || tags.tag[name=ImageColorValue]}">ImageColorValue is mandatory. If ImageColorIndicator is 1 on a Binary line-art (BL) file.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator]!=1} || {tags.tag[name=ImageColorValue]}">ImageColorValue is mandatory. If ImageColorIndicator is 1 on a Binary line-art (BL) file.</assert>
         </rule>
         <rule id="TIFF-IT-BL-0007" context="ifd[filetype=bl]" level="error">
             <title>TIFF/IT-BL ImageColorValue forbidden</title>
@@ -2228,7 +2228,7 @@
             <reference>
                 <section>Section 7.8.3: TIFF/IT-BL and TIFF/IT-BL/P1 encoding</section><page>41</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator] || tags.tag[name=ImageColorIndicator]!=0} || !tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 on a Binary line-art (BL) file.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator] || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 on a Binary line-art (BL) file.</assert>
         </rule>
         <rule id="TIFF-IT-BL-0008" context="ifd[filetype=bl]" level="error">
             <title>TIFF/IT-BL BackgroundColorValue mandatory</title>
@@ -2236,7 +2236,7 @@
             <reference>
                 <section>Section 7.8.3: TIFF/IT-BL and TIFF/IT-BL/P1 encoding</section><page>41</page>
             </reference>
-            <assert test="{tags.tag[name=BackgroundColorIndicator]!=1} || tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is mandatory. If BackgroundColorIndicator is 1 on a Binary line-art (BL) file.</assert>
+            <assert test="{tags.tag[name=BackgroundColorIndicator]!=1} || {tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is mandatory. If BackgroundColorIndicator is 1 on a Binary line-art (BL) file.</assert>
         </rule>
         <rule id="TIFF-IT-BL-0009" context="ifd[filetype=bl]" level="error">
             <title>TIFF/IT-BL BackgroundColorValue forbidden</title>
@@ -2244,7 +2244,7 @@
             <reference>
                 <section>Section 7.8.3: TIFF/IT-BL and TIFF/IT-BL/P1 encoding</section><page>41</page>
             </reference>
-            <assert test="{tags.tag[name=BackgroundColorIndicator] || tags.tag[name=BackgroundColorIndicator]!=0} || !tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 on a Binary line-art (BL) file.</assert>
+            <assert test="{tags.tag[name=BackgroundColorIndicator] || {tags.tag[name=BackgroundColorIndicator]!=0} || {!tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 on a Binary line-art (BL) file.</assert>
         </rule>
     </rules>
 
@@ -2315,7 +2315,7 @@
             <reference>
                 <section>Section 7.9.3: TIFF/IT-SD and TIFF/IT-SD/P2 encoding</section><page>41</page>
             </reference>
-            <assert test="tags.tag[name=InkSet] == 1}">Invalid InkSet value. InkSet should be 1</assert>
+            <assert test="{tags.tag[name=InkSet] == 1}">Invalid InkSet value. InkSet should be 1</assert>
         </rule>
         <rule id="TIFF-IT-SD-0007" context="ifd[filetype=sd]" level="error">
             <title>TIFF/IT-SD ColorSequence valid value</title>
@@ -2323,7 +2323,7 @@
             <reference>
                 <section>Section 7.9.3: TIFF/IT-SD and TIFF/IT-SD/P2 encoding</section><page>41</page>
             </reference>
-            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence for Screened data image (SD) must be CMYK or YMCK</assert>
+            <assert test="{tags.tag[name=ColorSequence] == 'CMYK'} || {tags.tag[name=ColorSequence] == 'YMCK'}">Invalid ColorSequence value. ColorSequence for Screened data image (SD) must be CMYK or YMCK</assert>
         </rule>
     </rules>
 
@@ -2381,7 +2381,7 @@
         <title>TIFF/IT-FP image-data encodings</title>
         <description>TIFF/IT-FP 0th IFD field usage for various low-resolution image-data encodings</description>
 
-        <rule id="TIFF-IT-FP-IMAGE-0001" context="ifd[filetype=fp]" level="error">
+        <rule id="TIFF-IT-FP-IMAGE-0001" context="ifd[filetype=fp]" level="error" experimental="true">
             <title>Valid BitsPerSample on CMYK</title>
             <description>Valid BitsPerSample on TIFF/IT-FP 0th IFD field usage for CMYK low-resolution image-data encoding is [8,8,8,8]</description>
             <reference>
@@ -2397,7 +2397,7 @@
             </reference>
             <assert test="{type != 'Palette'} || {tags.tag[name=BitsPerSample] == 8} || {tags.tag[name=BitsPerSample] == 4}" >Invalid BitsPerSample. BitsPerSample on TIFF/IT-FP 0th IFD field usage for Palette colour low-resolution image-data encoding should be 4 or 8 </assert>
         </rule>
-        <rule id="TIFF-IT-FP-IMAGE-0003" context="ifd[filetype=fp]" level="error">
+        <rule id="TIFF-IT-FP-IMAGE-0003" context="ifd[filetype=fp]" level="error" experimental="true">
             <title>Valid BitsPerSample on RGB</title>
             <description>Valid BitsPerSample on TIFF/IT-FP 0th IFD field usage for RGB low-resolution image-data encoding is [8,8,8]</description>
             <reference>

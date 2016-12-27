@@ -53,7 +53,7 @@
             <title>Orientation valid value</title>
             <description>Orientation valid value is 1</description>
             <reference><section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page></reference>
-            <assert test="{!tags.tag[name=Orientation] || tags.tag[name=Orientation]==1}">Orientation value must be 1</assert>
+            <assert test="{!tags.tag[name=Orientation] || {tags.tag[name=Orientation]==1}">Orientation value must be 1</assert>
         </rule>
         <rule id="TIFF-IT-P2-0004" context="ifd[class=image]" level="error">
             <title>Forbidden PageName tag</title>
@@ -97,13 +97,13 @@
             field 34019 (RasterPadding).
         </description>
 
-        <rule id="TIFF-IT-CT-P2-0001" context="ifd[filetype=ct]" level="error">
+        <rule id="TIFF-IT-CT-P2-0001" context="ifd[filetype=ct]" level="error" experimental="true">
             <title>TIFF/IT-CT/P2 BitsPerSample valid values</title>
             <description>BitsPerSample on a colour continuous-tone picture (CT) file must be 8,8,8,8</description>
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{tags.tag[name=InkSet]} || {tags.tag[name=InkSet != 1} || {tags.tag[name=BitsPerSample] == '8,8,8,8'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8,8]</assert>
+            <assert test="{tags.tag[name=InkSet]} || {tags.tag[name=InkSet] != 1} || {tags.tag[name=BitsPerSample] == '8,8,8,8'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8,8]</assert>
         </rule>
         <rule id="TIFF-IT-CT-P2-0002" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT/P2 Compression valid values</title>
@@ -131,7 +131,7 @@
             <reference>
                 <section>Section 7.3.3: TIFF/IT-CT encoding</section><page>23</page>
             </reference>
-            <assert test="{tags.tag[name=InkSet]} || {tags.tag[name=InkSet != 2} || {tags.tag[name=SamplesPerPixel] == 4}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) CMYK image without InkSet tag should be 4</assert>
+            <assert test="{tags.tag[name=InkSet]} || {tags.tag[name=InkSet] != 2} || {tags.tag[name=SamplesPerPixel] == 4}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) CMYK image without InkSet tag should be 4</assert>
         </rule>
         <rule id="TIFF-IT-CT-P2-0005" context="ifd[filetype=ct]" level="error">
             <title>TIFF/IT-CT/P2 PlanarConfiguration valid values </title>
@@ -302,13 +302,13 @@
             be written by typical TIFF 6.0 writers because of the mandatory use of TIFF/IT-specific fields and values and nontraditional
             interpretations of other TIFF 6.0 fields and values (e.g. compression by mandatory run-length encoding).
         </description>
-        <rule id="TIFF-IT-HC-P2-0001" context="ifd[filetype=hc]" level="error">
+        <rule id="TIFF-IT-HC-P2-0001" context="ifd[filetype=hc]" level="error" experimental="true">
             <title>TIFF/IT-HC/P2 BitsPerSample valid values</title>
             <description>BitsPerSample on a  High-resolution continuous-tone data (HC) file without InkSet tag must be [8,8,8,8]</description>
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="tags.tag[name=InkSet]} || {tags.tag[name=InkSet != 2} || {tags.tag[name=BitsPerSample] == '8,8,8,8'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8,8]</assert>
+            <assert test="tags.tag[name=InkSet]} || {tags.tag[name=InkSet] != 2} || {tags.tag[name=BitsPerSample] == '8,8,8,8'}">Invalid BitsPerSample value. BitsPerSample should be [8,8,8,8]</assert>
         </rule>
         <rule id="TIFF-IT-HC-P2-0002" context="ifd[filetype=hc]" level="error">
             <title>TIFF/IT-HC/P2 Compression valid value </title>
@@ -328,10 +328,11 @@
         </rule>
         <rule id="TIFF-IT-HC-P2-0004" context="ifd[filetype=hc]" level="error">
             <title>TIFF/IT-HC/P2 SamplesPerPixel valid values for CMYK</title>
+            <description>TIFF/IT-HC/P2 SamplesPerPixel valid values for CMYK</description>
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=InkSet]} || {tags.tag[name=InkSet != 2} || {tags.tag[name=SamplesPerPixel] == 4}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) CMYK image without InkSet tag should be 4</assert>
+            <assert test="{tags.tag[name=InkSet]} || {tags.tag[name=InkSet] != 2} || {tags.tag[name=SamplesPerPixel] == 4}">Invalid SamplesPerPixel. SamplesPerPixel for colour continuous-tone picture (CT) CMYK image without InkSet tag should be 4</assert>
         </rule>
         <rule id="TIFF-IT-HC-P2-0005" context="ifd[filetype=hc]]" level="error">
             <title>TIFF/IT-HC/P2 PlanarConfiguration valid value</title>
@@ -479,7 +480,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator]!=1} || tags.tag[name=ImageColorValue]}">ImageColorValue is mandatory. If ImageColorIndicator is 1 in Monochrome continuous-tone picture (MP) file.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator]!=1} || {tags.tag[name=ImageColorValue]}">ImageColorValue is mandatory. If ImageColorIndicator is 1 in Monochrome continuous-tone picture (MP) file.</assert>
         </rule>
         <rule id="TIFF-IT-MP-P2-0012" context="ifd[filetype=mp]" level="error">
             <title>TIFF/IT-MP/P1 ImageColorValue forbidden</title>
@@ -487,7 +488,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator] || tags.tag[name=ImageColorIndicator]!=0} || !tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Monochrome continuous-tone picture (MP) file.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator] || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Monochrome continuous-tone picture (MP) file.</assert>
         </rule>
         <rule id="TIFF-IT-MP-P2-0013" context="ifd[filetype=mp]" level="error">
             <title>TIFF/IT-MP/P2 PixelIntensityRange valid value</title>
@@ -529,7 +530,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator] == 1}  || tags.tag[name=ImageColorIndicator] == 0} ">Invalid ImageColorIndicator value. ImageColorIndicator in Monochrome continuous-tone picture (MP) file should be 0 or 1.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator] == 1}  || {tags.tag[name=ImageColorIndicator] == 0} ">Invalid ImageColorIndicator value. ImageColorIndicator in Monochrome continuous-tone picture (MP) file should be 0 or 1.</assert>
         </rule>
     </rules>
 
@@ -634,7 +635,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator]!=1} || tags.tag[name=ImageColorValue]}">ImageColorValue is mandatory. If ImageColorIndicator is 1 in Binary picture (BP) file.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator]!=1} || {tags.tag[name=ImageColorValue]}">ImageColorValue is mandatory. If ImageColorIndicator is 1 in Binary picture (BP) file.</assert>
         </rule>
         <rule id="TIFF-IT-BP-P2-0011" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP/P2 ImageColorValue forbidden</title>
@@ -642,7 +643,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator] || tags.tag[name=ImageColorIndicator]!=0} || !tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Binary picture (BP) file.</assert>
+            <assert test="{tags.tag[name=ImageColorIndicator] || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Binary picture (BP) file.</assert>
         </rule>
         <rule id="TIFF-IT-BP-P2-0012" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP/P2 BackgroundColorValue mandatory</title>
@@ -650,7 +651,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=BackgroundColorIndicator]!=1} || tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is mandatory. If BackgroundColorIndicator is 1 in Binary picture (BP) file.</assert>
+            <assert test="{tags.tag[name=BackgroundColorIndicator]!=1} || {tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is mandatory. If BackgroundColorIndicator is 1 in Binary picture (BP) file.</assert>
         </rule>
         <rule id="TIFF-IT-BP-P2-0013" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP/P2 BackgroundColorValue forbidden</title>
@@ -658,7 +659,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=BackgroundColorIndicator] || tags.tag[name=BackgroundColorIndicator]!=0} || !tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 in Binary picture (BP) file.</assert>
+            <assert test="{tags.tag[name=BackgroundColorIndicator] || {tags.tag[name=BackgroundColorIndicator]!=0} || {!tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 in Binary picture (BP) file.</assert>
         </rule>
         <rule id="TIFF-IT-BP-P2-0014" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP/P2 CMYKEquivalent is forbidden</title>
