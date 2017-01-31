@@ -25,7 +25,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 /**
- * Created by Adrià Llorens on 19/10/2016.
+ * Created by Adria Llorens on 19/10/2016.
  */
 public class ImplementationCheckerLoader {
 

@@ -15,7 +15,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 /**
- * Created by Adrià Llorens on 22/12/2016.
+ * Created by Adria Llorens on 22/12/2016.
  */
 public class ImplementationCheckerValidator {
 

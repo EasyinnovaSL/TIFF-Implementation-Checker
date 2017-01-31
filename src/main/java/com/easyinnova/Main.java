@@ -5,12 +5,13 @@ import com.easyinnova.implementation_checker.ValidationResult;
 import com.easyinnova.implementation_checker.rules.RuleResult;
 import com.easyinnova.tiff.reader.TiffReader;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Adrià Llorens on 22/12/2016.
+ * Created by Adria Llorens on 22/12/2016.
  */
 public class Main {
   public static void main(String[] args) {
@@ -23,6 +24,11 @@ public class Main {
       path = args[0];
       iso = args[1];
     } else {
+      help();
+      return;
+    }
+
+    if (!new File(path).exists() || !validISO(iso)) {
       help();
       return;
     }
@@ -53,6 +59,17 @@ public class Main {
     }
   }
 
+  static boolean validISO(String iso) {
+    if (iso.equals("TIFF_Baseline_Core_6_0")) return true;
+    if (iso.equals("TIFF_Baseline_Extended_6_0")) return true;
+    if (iso.equals("TIFF_EP")) return true;
+    if (iso.equals("TiffITProfileChecker")) return true;
+    if (iso.equals("TiffITP1ProfileChecker")) return true;
+    if (iso.equals("TiffITP2ProfileChecker")) return true;
+    if (iso.equals("TIAProfileChecker")) return true;
+    return false;
+  }
+
   public static void prettyPrint(ValidationResult validation) {
     printResults("ERROR", validation.getErrors());
     printResults("Warning", validation.getWarnings(false));
@@ -75,6 +92,7 @@ public class Main {
     System.out.println("Input params error.");
     System.out.println("  First argument must be the file.");
     System.out.println("  Second argument can be the ISO to check. If empty, it checks Baseline TIFF 6.0.");
+    System.out.println("  Available ISOs: 'TIFF_Baseline_Core_6_0', 'TIFF_Baseline_Extended_6_0', 'TIFF_EP', 'TiffITProfileChecker', 'TiffITP1ProfileChecker', 'TiffITP2ProfileChecker', 'TIAProfileChecker'");
   }
 
 }
