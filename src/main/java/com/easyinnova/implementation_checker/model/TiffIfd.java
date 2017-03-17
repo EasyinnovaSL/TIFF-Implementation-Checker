@@ -53,8 +53,9 @@ public class TiffIfd extends TiffNode implements TiffNodeInterface {
   String filetype = "";
   String imgtype = "";
   String pixelDensity = "";
+  String longEdge = "";
   String bitDepth = "";
-  String dpi = "";
+  String evenness = "";
   String extraChannels = "";
   String equalXYResolution = "";
 
@@ -77,6 +78,15 @@ public class TiffIfd extends TiffNode implements TiffNodeInterface {
   }
 
   @XmlAttribute
+  public void setLongEdge(String longEdge) {
+    this.longEdge = longEdge;
+  }
+
+  public String getLongEdge() {
+    return longEdge;
+  }
+
+  @XmlAttribute
   public void setIFD0(int value) {
     this.IFD0 = value;
   }
@@ -95,12 +105,12 @@ public class TiffIfd extends TiffNode implements TiffNodeInterface {
   }
 
   @XmlAttribute
-  public void setDpi(String dpi) {
-    this.dpi = dpi;
+  public void setEvenness(String evenness) {
+    this.evenness = evenness;
   }
 
-  public String getDpi() {
-    return dpi;
+  public String getEvenness() {
+    return evenness;
   }
 
   @XmlAttribute
@@ -312,8 +322,9 @@ public class TiffIfd extends TiffNode implements TiffNodeInterface {
 
     // for policy checker
     childs.add(new TiffSingleNode("pixelDensity", pixelDensity + "", n));
+    childs.add(new TiffSingleNode("longEdge", longEdge + "", n));
     childs.add(new TiffSingleNode("bitDepth", bitDepth + "", n));
-    childs.add(new TiffSingleNode("dpi", dpi + "", n));
+    childs.add(new TiffSingleNode("evenness", evenness + "", n));
     childs.add(new TiffSingleNode("extraChannels", extraChannels + "", n));
     childs.add(new TiffSingleNode("equalXYResolution", equalXYResolution + "", n));
 

@@ -428,7 +428,7 @@ public class TiffImplementationChecker {
         eqxy = "False";
     }
     tiffIfd.setEqualXYResolution(eqxy);
-    String dpi = "";
+    String evenness = "";
     if (ifd.getTags().containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("XResolution")) && ifd.getTags().containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("YResolution"))
         && ifd.getTag("XResolution").getValue().size() > 0 && ifd.getTag("YResolution").getValue().size() > 0) {
       try {
@@ -439,14 +439,14 @@ public class TiffImplementationChecker {
           Rational raty = (Rational) ry;
           int xres = (int) ratx.getFloatValue();
           int yres = (int) raty.getFloatValue();
-          if (xres % 2 != 0 || yres % 2 != 0) dpi = "Uneven";
-          else dpi = "Even";
+          if (xres % 2 != 0 || yres % 2 != 0) evenness = "Uneven";
+          else evenness = "Even";
         }
       } catch (Exception ex) {
         ex.printStackTrace();
       }
     }
-    tiffIfd.setDpi(dpi);
+    tiffIfd.setEvenness(evenness);
     String extra = "0";
     if (ifd.getTags().containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("ExtraSamples")))
       extra = ifd.getTag("ExtraSamples").getCardinality() + "";
@@ -467,7 +467,18 @@ public class TiffImplementationChecker {
         pixeldensity = "";
       }
     }
+    String longedge = "0";
+    if (ifd.getMetadata() != null && ifd.getMetadata().containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("ImageWidth")) && ifd.getMetadata().containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("ImageLength"))) {
+      try {
+        int w = Integer.parseInt(ifd.getMetadata().get("ImageWidth").toString());
+        int h = Integer.parseInt(ifd.getMetadata().get("ImageLength").toString());
+        longedge = w > h ? w + "" : h + "";
+      } catch (Exception ex) {
+        longedge = "";
+      }
+    }
     tiffIfd.setPixelDensity(pixeldensity);
+    tiffIfd.setLongEdge(longedge);
 
     return tiffIfd;
   }
