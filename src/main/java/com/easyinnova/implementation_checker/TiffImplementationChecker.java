@@ -27,6 +27,7 @@ import com.easyinnova.implementation_checker.model.TiffTags;
 import com.easyinnova.implementation_checker.model.TiffValidationObject;
 import com.easyinnova.tiff.model.IfdTags;
 import com.easyinnova.tiff.model.Metadata;
+import com.easyinnova.tiff.model.Strip;
 import com.easyinnova.tiff.model.TagValue;
 import com.easyinnova.tiff.model.TiffDocument;
 import com.easyinnova.tiff.model.types.IFD;
@@ -55,6 +56,7 @@ public class TiffImplementationChecker {
     this.tiffDoc = tiffDoc;
     TiffValidationObject tiffValidate = new TiffValidationObject();
     usedOffsetsSizes = new Hashtable<>();
+    long fileSize = tiffDoc.getSize();
 
     // Generic info
     tiffValidate.setSize(tiffDoc.getSize());
@@ -86,7 +88,7 @@ public class TiffImplementationChecker {
     usedOffsets.add(tiffDoc.getFirstIFDOffset());
     boolean circularReference = false;
     while (ifd != null) {
-      ifdsList.add(CreateIFDValidation(ifd, n++));
+      ifdsList.add(CreateIFDValidation(ifd, n++, fileSize));
       if (usedOffsets.contains(ifd.getNextOffset())) {
         circularReference = true;
         break;
@@ -109,7 +111,7 @@ public class TiffImplementationChecker {
     return tiffValidate;
   }
 
-  public TiffIfd CreateIFDValidation(IFD ifd, int n) {
+  public TiffIfd CreateIFDValidation(IFD ifd, int n, long fileSize) {
     boolean hasSubIfd = ifd.hasSubIFD();
     boolean thumbnail = hasSubIfd && ifd.getsubIFD().getImageSize() > ifd.getImageSize();
     IfdTags metadata;
@@ -143,7 +145,7 @@ public class TiffImplementationChecker {
           tagIds.add(tv.getId());
         }
         prevTagId = tv.getId();
-        tags.add(CreateTiffTag(tv, n));
+        tags.add(CreateTiffTag(tv, n, fileSize));
         usedOffsetsSizes.put(tv.getReadOffset(), tv.getReadlength());
       } catch (Exception ex) {
         ex.printStackTrace();
@@ -190,6 +192,14 @@ public class TiffImplementationChecker {
         tiffIfd.setCorrectStrips(0);
       }
 
+      TagValue tv = ifd.getTag("StripOffsets");
+      for (abstractTiffType att : tv.getValue()) {
+        int offset = Integer.parseInt(att.toString());
+        if (offset < 7 || offset > fileSize) {
+          tiffIfd.setCorrectStrips(-1);
+        }
+      }
+
       //long rps = 1;
       //if (metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("RowsPerStrip")))
       //  rps = metadata.get("RowsPerStrip").getFirstNumericValue();
@@ -226,6 +236,15 @@ public class TiffImplementationChecker {
             }
           }
         }
+
+        TagValue tv = ifd.getTag("TileOffsets");
+        for (abstractTiffType att : tv.getValue()) {
+          int offset = Integer.parseInt(att.toString());
+          if (offset < 7 || offset > fileSize) {
+            tiffIfd.setCorrectTiles(-1);
+          }
+        }
+
       } else {
         tiffIfd.setCorrectTiles(0);
       }
@@ -609,7 +628,7 @@ public class TiffImplementationChecker {
     }
   }
 
-  TiffIfd createIfdNode(TagValue tv, String nodeName) {
+  TiffIfd createIfdNode(TagValue tv, String nodeName, long fileSize) {
     TiffIfd ifd = new TiffIfd();
     ifd.setThumbnail(-1);
     List<TiffTag> tags = new ArrayList<TiffTag>();
@@ -631,7 +650,7 @@ public class TiffImplementationChecker {
             tagIds.add(tvv.getId());
           }
           prevTagId = tvv.getId();
-          tags.add(CreateTiffTag(tvv, 0));
+          tags.add(CreateTiffTag(tvv, 0, fileSize));
         }
         TiffTags tiffTags = new TiffTags();
         tiffTags.setTagsCount(tags.size());
@@ -661,7 +680,7 @@ public class TiffImplementationChecker {
     return false;
   }
 
-  public TiffTag CreateTiffTag(TagValue tv, int parentIfd) {
+  public TiffTag CreateTiffTag(TagValue tv, int parentIfd, long fileSize) {
     TiffTag tt = new TiffTag();
     tt.setId(tv.getId());
     if (tv.getId() > 32767) tt.setPrivateTag("private");
@@ -704,17 +723,17 @@ public class TiffImplementationChecker {
     }
     if (tv.getId() == 34665) {
       // EXIF
-      TiffIfd ifd = createIfdNode(tv, "exif");
+      TiffIfd ifd = createIfdNode(tv, "exif", fileSize);
       if (ifd != null)
         tt.setExif(ifd);
     } else if (tv.getId() == 330) {
       // SubIFD
-      TiffIfd ifd = CreateIFDValidation((IFD) tv.getValue().get(0), -parentIfd);
+      TiffIfd ifd = CreateIFDValidation((IFD) tv.getValue().get(0), -parentIfd, fileSize);
       //TiffIfd ifd = createIfdNode(tv, "image");
       tt.setIfd(ifd);
     } else if (tv.getId() == 400) {
       // GlobalParametersIFD
-      TiffIfd ifd = createIfdNode(tv, "globalparameters");
+      TiffIfd ifd = createIfdNode(tv, "globalparameters", fileSize);
       if (ifd != null)
         tt.setGlobalParameters(ifd);
     } else if (tv.getId() == 700) {

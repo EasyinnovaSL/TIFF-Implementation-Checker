@@ -383,16 +383,24 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>19</page></reference>
    <assert test="{tags.tag[name=StripBYTECount]}">Image IFD must have the tag StripBYTECount</assert>
   </rule>
-  
+
   <rule id="STRIPS-0003" context="ifd[strips=1]" level="error">
    <title>Strips sizes match image dimensions</title>
    <description>strips structure must match with the image width and height</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>19</page></reference>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>40</page></reference>
-   <assert test="{correctStrips == 1}">Image width and image height do not match with strips sizes</assert>
+   <assert test="{correctStrips == 1} || {correctStrips == -1}">Image width and image height do not match with strips sizes</assert>
   </rule>
 
   <rule id="STRIPS-0004" context="ifd[strips=1]" level="error">
+   <title>Strips check</title>
+   <description>Strips must be valid</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>19</page></reference>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>40</page></reference>
+   <assert test="{correctStrips == 1} || {correctStrips == 0}">Strips offsets are invalid</assert>
+  </rule>
+
+  <rule id="STRIPS-0005" context="ifd[strips=1]" level="error">
    <title>Inconsistent Strip lenght</title>
    <description>The cardinality of striptOffsets and the cardinality of StripsBytesCount must be the same</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>40</page></reference>

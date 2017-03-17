@@ -556,12 +556,19 @@
   </rule>
   
   <rule id="TILES-0008" context="ifd[tiles=1]" level="error">
+   <title>Tiles check</title>
+   <description>Tiles must ve valid</description>
+   <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><pages>66-68</pages></reference>
+   <assert test="{correctTiles == 1} || {correctTiles == 0}">Tiles offsets are invalid</assert>
+  </rule>
+
+  <rule id="TILES-0009" context="ifd[tiles=1]" level="error">
    <title>Tiles sizes match image dimensions</title>
    <description>Tiles structure must match with the image width and height</description>
    <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><pages>66-68</pages></reference>
-   <assert test="{correctTiles == 1}">image width and image height do not match with tiles sizes</assert>
+   <assert test="{correctTiles == 1} || {correctTiles == -1}">Image width and image height do not match with tiles sizes</assert>
   </rule>
-  
+
   <!--
   <rule id="TILES-0009" context="ifd[tiles=1]" level="warning">
    <title>tiles about 4K to 32K bytes</title>
