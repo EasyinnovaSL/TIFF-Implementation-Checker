@@ -503,7 +503,7 @@
    <assert test="{tags.tag[name=ExtraSamples]} || {tags.tag[name=BitsPerSample] == 4} || {tags.tag[name=BitsPerSample] == 8} &amp;&amp; ( {!tags.tag[name=SamplesPerPixel]} || {tags.tag[name=SamplesPerPixel] == 1})">BitsPerSample  must be 4 or 8 and BitsPerSample must be 1 for Grayscale images without ExtraSamples</assert>
   </rule>
 
-   <rule id="IFDG-0004" context="ifd[type=Bilevel]" level="error" experimental="true">
+   <rule id="IFDG-0004" context="ifd[type=Grayscale]" level="error" experimental="true">
     <title>Valid BitsPerSample and SamplesPerPixel with ExtraSample</title>
     <description>When an Extra Sample is defined then 1 sample is required for Grayscale Images.</description>
     <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
@@ -537,7 +537,7 @@
 
   <rule id="IFDP-0003" context="ifd[type=Palette]" level="error">
    <title>Valid BitsPerSample for  palette color image</title>
-   <description>Allowable values for Baseline TIFF  palette color images are 4 and 8, allowing either 16 or 256 distinct colors.</description>
+   <description>Allowable values for Baseline TIFF palette color images are 4 and 8, allowing either 16 or 256 distinct colors.</description>
    <reference><document>TIFF Baseline 6</document><section>Section 5: Palette Color Images</section><page>23</page></reference>
    <assert test="{tags.tag[name=BitsPerSample] == 4} || {tags.tag[name=BitsPerSample] == 8}">Invalid Bits per Sample for palette color image</assert>
   </rule>
@@ -828,7 +828,7 @@
   </rule>
   
   <rule id="TAG-264-0004" context="ifd" level="warning">
-   <title>CellWidth only in palette images</title>
+   <title>CellWidth only in bilevel images</title>
    <description>CellWidth should only be used in an image IFD defining a bilevel image</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
    <assert test="{tags.tag[name=CellWidth]} &amp;&amp; {type != 'Bilevel'}">CellWidth should only be used in an image IFD defining a bilevel image</assert>

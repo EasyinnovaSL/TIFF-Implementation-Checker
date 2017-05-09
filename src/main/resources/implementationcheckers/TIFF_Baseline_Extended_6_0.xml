@@ -1364,14 +1364,14 @@ SamplesPerPixel * TilesPerImage for PlanarConfiguration equal to 2</description>
    <title>Valid samples per Pixel</title>
    <description>When No Extra Sample is defined then SamplesPerPixel must be 3 for YCbCr Images.</description>
    <reference><document>Extended TIFF 6</document><section>Section 21: YCbCr Images</section><page>89</page></reference>
-   <assert test="{!tags.tag[name=Extrasample]} || {tags.tag[name=SamplesPerPixel] == 3}">SamplesPerPixel  must be 3 for YCbCr images without ExtraSamples</assert>
+   <assert test="{!tags.tag[name=Extrasample]} || {tags.tag[name=SamplesPerPixel] == 3}">SamplesPerPixel must be 3 for YCbCr images without ExtraSamples</assert>
   </rule>
   
   <rule id="YCBCR-0004" context="ifd[type=YCbCr]" level="error" experimental="true">
    <title>Valid BitsPerSample</title>
    <description>When No Extra Sample is defined then BitsPerSample must be 8,8,8 for YCbCr Images.</description>
    <reference><document>Extended TIFF 6</document><section>Section 21: YCbCr Images</section><page>94</page></reference>
-   <assert test="{!tags.tag[name=Extrasample]} || {tags.tag[name=BitsPerSample] == '8,8,8'}">SamplesPerPixel  must be 3 for YCbCr images without ExtraSamples</assert>
+   <assert test="{!tags.tag[name=Extrasample]} || {tags.tag[name=BitsPerSample] == '8,8,8'}">SamplesPerPixel must be 3 for YCbCr images without ExtraSamples</assert>
   </rule>
   
   <rule id="IFDR-0005" context="ifd[type=YCbCr]" level="error">
@@ -1993,7 +1993,7 @@ SamplesPerPixel * TilesPerImage for PlanarConfiguration equal to 2</description>
    <title>Valid PhotometricInterpretation for CIE L*a*b* </title>
    <description>An Image File directory containing a CIE L*a*b* image must have a value 8 in Photometric Interpretation tag </description>
    <reference><document>Extended TIFF 6</document><section>Section 23: CIE L*a*b* Images</section><page>111</page></reference>
-   <assert test="{tags.tag[name=PhotometricInterpretation] == 6}"></assert>
+   <assert test="{tags.tag[name=PhotometricInterpretation] == 8}"></assert>
   </rule>
   
   
@@ -2011,21 +2011,21 @@ SamplesPerPixel * TilesPerImage for PlanarConfiguration equal to 2</description>
    <assert test="{tags.tag[name=ExtraSample]} &amp;&amp; {tags.tag[name=SamplesPerPixel] - tags.tag[name=ExtraSample] == 3}"></assert>
   </rule>
   
-  <rule id="CIELab-0004" context="ifd[type=CIELab]" level="error" experimental="true">
+  <rule id="CIELab-0004" context="ifd[type=CIELab]" level="error">
    <title>CIE L*a*b* image invalid WhitePoint tag</title>
    <description>A CIE L*a*b* must not apply WhitePoint tag</description>
    <reference><document>Extended TIFF 6</document><section>Section 23: CIE L*a*b* Images</section><page>111</page></reference>
    <assert test="{!tags.tag[name=WhitePoint]}">A CIE L*a*b* Image must not contain a WhitePoint tag</assert>
   </rule>
   
-  <rule id="CIELab-0005" context="ifd[type=CIELab]" level="error" experimental="true">
+  <rule id="CIELab-0005" context="ifd[type=CIELab]" level="error">
    <title>CIE L*a*b* image invalid PrimaryChromaticities tag</title>
    <description>A CIE L*a*b* must not apply PrimaryChromaticities tag</description>
    <reference><document>Extended TIFF 6</document><section>Section 23: CIE L*a*b* Images</section><page>111</page></reference>
    <assert test="{!tags.tag[name=PrimaryChromaticities]}">A CIE L*a*b* Image must not contain a PrimaryChromaticities tag</assert>
   </rule>
   
-  <rule id="CIELab-0006" context="ifd[type=CIELab]" level="error" experimental="true">
+  <rule id="CIELab-0006" context="ifd[type=CIELab]" level="error">
    <title>CIE L*a*b* image invalid TransferFunction tag</title>
    <description>A CIE L*a*b* must not apply TransferFunction tag</description>
    <reference><document>Extended TIFF 6</document><section>Section 23: CIE L*a*b* Images</section><page>111</page></reference>

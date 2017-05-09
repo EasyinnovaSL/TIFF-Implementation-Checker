@@ -512,7 +512,7 @@
                 <section>Section 5.1 Tag List</section>
                 <page>16</page>
             </reference>
-            <assert test="{type != 'Bilevel'} || {tags.tag[name=SamplesPerPixel] == 1}">SamplesPerPixel is mandatory regarding the TI/A specifications</assert>
+            <assert test="{type != 'Bilevel'} || {tags.tag[name=SamplesPerPixel] == 1}">SamplesPerPixel shall be 1 for Bilevel images</assert>
         </rule>
 
         <rule id="MANDATORY-TAG-277-0003" context="ifd[class=image]" level="error">
@@ -523,7 +523,7 @@
                 <section>Section 5.1 Tag List</section>
                 <page>16</page>
             </reference>
-            <assert test="{type != 'Grayscale'} || {tags.tag[name=SamplesPerPixel] == 1}">SamplesPerPixel is mandatory regarding the TI/A specifications</assert>
+            <assert test="{type != 'Grayscale'} || {tags.tag[name=SamplesPerPixel] == 1}">SamplesPerPixel shall be 1 for Grayscale images</assert>
         </rule>
 
         <rule id="MANDATORY-TAG-277-0004" context="ifd[class=image]" level="error">
@@ -534,7 +534,7 @@
                 <section>Section 5.1 Tag List</section>
                 <page>16</page>
             </reference>
-            <assert test="{type != 'RGB'} || {tags.tag[name=SamplesPerPixel] == 3}">SamplesPerPixel is mandatory regarding the TI/A specifications</assert>
+            <assert test="{type != 'RGB'} || {tags.tag[name=SamplesPerPixel] == 3}">SamplesPerPixel shall be 3 for RGB images</assert>
         </rule>
 
         <rule id="MANDATORY-TAG-278" context="ifd[class=image]" level="error">
