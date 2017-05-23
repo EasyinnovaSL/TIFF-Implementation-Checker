@@ -27,7 +27,6 @@ import com.easyinnova.implementation_checker.model.TiffTags;
 import com.easyinnova.implementation_checker.model.TiffValidationObject;
 import com.easyinnova.tiff.model.IfdTags;
 import com.easyinnova.tiff.model.Metadata;
-import com.easyinnova.tiff.model.Strip;
 import com.easyinnova.tiff.model.TagValue;
 import com.easyinnova.tiff.model.TiffDocument;
 import com.easyinnova.tiff.model.types.IFD;

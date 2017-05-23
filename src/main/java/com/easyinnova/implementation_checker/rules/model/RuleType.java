@@ -19,6 +19,7 @@
 
 package com.easyinnova.implementation_checker.rules.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +86,7 @@ import javax.xml.bind.annotation.XmlValue;
     "reference",
     "_assert"
 })
-public class RuleType {
+public class RuleType implements Serializable {
 
   @XmlElement(required = true)
   protected RuleType.Title title;
@@ -349,7 +350,7 @@ public class RuleType {
   @XmlType(name = "", propOrder = {
       "value"
   })
-  public static class Description {
+  public static class Description implements Serializable {
 
     @XmlValue
     protected String value;
@@ -401,7 +402,7 @@ public class RuleType {
   @XmlType(name = "", propOrder = {
       "value"
   })
-  public static class Title {
+  public static class Title implements Serializable {
 
     @XmlValue
     protected String value;

@@ -22,10 +22,12 @@ package com.easyinnova.implementation_checker.rules;
 import com.easyinnova.implementation_checker.model.TiffNode;
 import com.easyinnova.implementation_checker.rules.model.RuleType;
 
+import java.io.Serializable;
+
 /**
  * Created by easy on 16/03/2016.
  */
-public class RuleResult {
+public class RuleResult implements Serializable {
   String message;
   String location = null;
   boolean ok;

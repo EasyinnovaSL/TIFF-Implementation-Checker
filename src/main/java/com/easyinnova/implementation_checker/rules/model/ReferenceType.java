@@ -19,6 +19,8 @@
 
 package com.easyinnova.implementation_checker.rules.model;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -58,7 +60,7 @@ import javax.xml.bind.annotation.XmlType;
     "page",
     "pages"
 })
-public class ReferenceType {
+public class ReferenceType implements Serializable {
 
     @XmlElement(namespace = "http://www.dpfmanager.org/ProfileChecker")
     protected String document;

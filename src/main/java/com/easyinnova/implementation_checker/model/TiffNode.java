@@ -21,13 +21,14 @@ package com.easyinnova.implementation_checker.model;
 
 import com.easyinnova.implementation_checker.rules.Filter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by easy on 11/03/2016.
  */
-public class TiffNode implements TiffNodeInterface {
+public class TiffNode implements TiffNodeInterface, Serializable {
   private String location;
   private String parent;
 

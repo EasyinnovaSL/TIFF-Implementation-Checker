@@ -19,6 +19,8 @@
 
 package com.easyinnova.implementation_checker.rules.model;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -47,7 +49,7 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlType(name = "assertType", namespace = "http://www.dpfmanager.org/ProfileChecker", propOrder = {
     "value"
 })
-public class AssertType {
+public class AssertType implements Serializable {
 
     @XmlValue
     protected String value;
