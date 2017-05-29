@@ -56,6 +56,21 @@ public class ValidationResult {
   }
 
   /**
+   * Gets passed.
+   *
+   * @return the passed rules
+   */
+  public List<RuleResult> getPassed() {
+    List<RuleResult> passed = new ArrayList<>();
+    for (RuleResult res : result) {
+      if (res.ok()) {
+        passed.add(res);
+      }
+    }
+    return passed;
+  }
+
+  /**
    * Gets errors.
    *
    * @return the errors
