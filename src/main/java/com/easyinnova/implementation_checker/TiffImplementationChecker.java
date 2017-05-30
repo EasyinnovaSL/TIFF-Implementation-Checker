@@ -177,13 +177,15 @@ public class TiffImplementationChecker {
       int id = com.easyinnova.tiff.model.TiffTags.getTagId("StripBYTECount");
       if (metadata.containsTagId(id) && metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("Compression")) && metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("ImageLength")) && metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("ImageWidth"))) {
         int nsc = metadata.get(id).getCardinality();
-        if (metadata.get("Compression").getFirstNumericValue() == 1 && pixelSize >= 8) {
+        if (metadata.get("Compression").getCardinality() > 0 && metadata.get("Compression").getFirstNumericValue() == 1 && pixelSize >= 8) {
           int calculatedImageLength = 0;
           for (int i = 0; i < nsc; i++) {
             calculatedImageLength += metadata.get(id).getValue().get(i).toInt();
           }
-          if (calculatedImageLength != metadata.get("ImageLength").getFirstNumericValue()
-              * metadata.get("ImageWidth").getFirstNumericValue() * pixelSize / 8) {
+          long len = 0, wid = 0;
+          if (metadata.get("ImageLength").getCardinality() > 0) len = metadata.get("ImageLength").getFirstNumericValue();
+          if (metadata.get("ImageLength").getCardinality() > 0) wid = metadata.get("ImageWidth").getFirstNumericValue();
+          if (calculatedImageLength != len * wid * pixelSize / 8) {
             tiffIfd.setCorrectStrips(0);
           }
         }
@@ -283,7 +285,7 @@ public class TiffImplementationChecker {
       }
 
       // Check correct compression
-      if (metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("Compression")) && metadata.get("Compression").getFirstNumericValue() == 1) {
+      if (metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("Compression")) && metadata.get("Compression").getCardinality() > 0 && metadata.get("Compression").getFirstNumericValue() == 1) {
         if (metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("CompressedBitsPerPixel"))) {
           correctCompression = false;
         }

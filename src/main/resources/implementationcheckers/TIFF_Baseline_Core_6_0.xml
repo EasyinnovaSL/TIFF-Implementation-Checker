@@ -77,6 +77,7 @@
    <description>The byte offset may refer at any location in the file after the Image File Header(IFH) but must begin on a word boundary</description>
    <reference><document>TIFF Baseline 6</document><section>Section 2: TIFF Structure</section><page>13</page></reference>
    <assert test="{offset%2==0}">Bad word alignment in offset</assert>
+   <hint>You can use the metadata fixer option Make Baseline Compliant to solve this error.</hint>
   </rule>
 
  </rules>
