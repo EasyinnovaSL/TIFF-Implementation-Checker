@@ -109,16 +109,13 @@ public class Validator {
     for (RulesType ruleSet : rules.getRules()) {
       for (RuleType rule : ruleSet.getRule()) {
         if (!rule.getExperimental()) {
-          if (!rule.isCritical())
+          if (!rule.isCritical() && ((fastBreak && rule.isError()) || !fastBreak))
             ordRules.add(rule);
         }
       }
     }
 
     for (RuleType rule : ordRules) {
-      if (rule.getId().equals("TIFF-IT-CT-RGB-0001"))
-        rule.toString();
-
       String context = rule.getContext();
       List<TiffNode> objects = model.getObjectsFromContext(context, true);
       for (TiffNode node : objects) {
