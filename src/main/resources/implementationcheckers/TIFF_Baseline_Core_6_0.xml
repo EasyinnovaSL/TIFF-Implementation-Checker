@@ -130,6 +130,7 @@
    <description>The entries in an Image File Directory(IFD) must be in strictly ascending order by tag although the values witch directory entry points need not be in any particular order.</description>
    <reference><document>TIFF Baseline 6</document><section>Section 2: TIFF Structure</section><page>15</page></reference>
    <assert test="{duplicateTags == 0}">Tags cannot be duplicated inside an IFD because the entries in an Image File Directory(IFD) must be in strictly ascending order</assert>
+   <hint>You can use the metadata fixer option Make Baseline Compliant to solve this error.</hint>
   </rule>
   
   <rule id="IFD-0007" context="ifd" level="error">
@@ -137,6 +138,7 @@
    <description>The entries in an Image File Directory(IFD) must be in strictly ascending order by tag although the values witch directory entry points need not be in any particular order.</description>
    <reference><document>TIFF Baseline 6</document><section>Section 2: TIFF Structure</section><page>15</page></reference>
    <assert test="{tagOrdering == 1}">Tags must be in strict ascending order</assert>
+   <hint>You can use the metadata fixer option Make Baseline Compliant to solve this error.</hint>
   </rule>
 
    <rule id="IFD-0008" context="ifd" level="error" experimental="true">
@@ -172,6 +174,7 @@
    <description>The byte offset may refer at any location in the file after the Image File Header(IFH) but must begin on a word boundary</description>
    <reference><document>TIFF Baseline 6</document><section>Section 2: TIFF Structure</section><page>14</page></reference>
    <assert test="{offset%2==0}">Bad word alignment in offset</assert>
+   <hint>You can use the metadata fixer option Make Baseline Compliant to solve this error.</hint>
   </rule>
 
   <rule id="IFD-00013" context="exif" level="error">
@@ -179,6 +182,7 @@
    <description>The byte offset may refer at any location in the file after the Image File Header(IFH) but must begin on a word boundary</description>
    <reference><document>TIFF Baseline 6</document><section>Section 2: TIFF Structure</section><page>14</page></reference>
    <assert test="{offset%2==0}">Bad word alignment in offset</assert>
+   <hint>You can use the metadata fixer option Make Baseline Compliant to solve this error.</hint>
   </rule>
 
   <rule id="IFD-0014" context="ifds" level="critical">
@@ -265,6 +269,7 @@
    <description>8-bit byte that contains a 7-bit ASCII code; the last byte must be NUL (binary zero).</description>
    <reference><document>TIFF Baseline 6</document><section>Section 2: TIFF Structure</section><paragraph>7</paragraph><page>15</page></reference>
    <assert test="{asci7==true}">Only 7-bit ASCII codes are accepted</assert>
+   <hint>Modify the tag content with basic ascii characters (no accents).</hint>
   </rule>
   
   <rule id="IDFE-0003" context="tag[type=ASCII]" level="error">
@@ -372,6 +377,7 @@
    <reference><document>TIFF Baseline 6</document><section>Section 6: RGB Full Color Images</section><page>23</page></reference>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>40</page></reference>
    <assert test="{tags.tag[name=StripOffsets]}">Image IFD must have the tag StripOffsets</assert>
+   <hint>The image may be stored in tiles instead of strips. This is allowed with the Extended Baseline ISO.</hint>
   </rule>
   
   <rule id="STRIPS-0002" context="ifd[class=image]" level="error">
@@ -383,6 +389,7 @@
    <reference><document>TIFF Baseline 6</document><section>Section 6: RGB Full Color Images</section><page>23</page></reference>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>19</page></reference>
    <assert test="{tags.tag[name=StripBYTECount]}">Image IFD must have the tag StripBYTECount</assert>
+   <hint>The image may be stored in tiles instead of strips. This is allowed with the Extended Baseline ISO.</hint>
   </rule>
 
   <rule id="STRIPS-0003" context="ifd[strips=1]" level="error">
@@ -583,6 +590,7 @@
     either be stored as uncompressed data or compressed with the PackBits algorithm.</description>
    <reference><document>TIFF Baseline 6</document><section>Section 6: RGB Full Color Images</section><page>23</page></reference>
    <assert test="{tags.tag[name=Compression] == 1} || {tags.tag[name=Compression] == 32773}">Invalid Compression for RGB image</assert>
+   <hint>Compressed images are not allowed in TIFF Baseline 6. Try validating with another ISO.</hint>
   </rule>
   
   <rule id="IDFR-0003" context="ifd[type=RGB]" level="info">
@@ -608,8 +616,6 @@
      <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>39</page></reference>
      <assert test="{!tags.tag[name=ExtraSamples]} || {tags.tag[name=BitsPerSample] - tags.tag[name=ExtraSamples].cardinality == 3}">3 samples are required to define RGB images with ExtraSamples</assert>
     </rule>
-
-  
  </rules>
  
  <rules id="IFDT">
@@ -662,6 +668,7 @@
    <description>The byte offset may refer at any location in the file after the Image File Header(IFH) but must begin on a word boundary</description>
    <reference><document>TIFF Baseline 6</document><section>Section 2: TIFF Structure</section><page>13</page></reference>
    <assert test="{offset%2==0}">Bad word alignment in offset</assert>
+   <hint>You can use the metadata fixer option Make Baseline Compliant to solve this error.</hint>
   </rule>
 
   <rule id="OFFSET-0002" context="tag" level="critical">
@@ -918,8 +925,7 @@
     only for bilevel images and BitsPerSample must be 1
    </description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>30</page></reference>
-   <assert test="{tags.tag[name=Compression] != 2} || {tags.tag[name=BitsPerSample] == 1}">CCITT compression is defined
-    only for bilevel images and BitsPerSample must be 1</assert>
+   <assert test="{tags.tag[name=Compression] != 2} || {tags.tag[name=BitsPerSample] == 1}">CCITT compression is defined only for bilevel images and BitsPerSample must be 1</assert>
   </rule>
   
   <rule id="TAG-259-0005" context="ifd" level="warning">
@@ -2123,8 +2129,7 @@ not be larger than 64K bytes.
    <description>It is not mandatory that the image be actually displayed or printed at the size implied
     by this parameter. It is up to the application to use this information as it wishes.</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>41</page></reference>
-   <assert test="{tags.tag[name=XResolution]}"> It is not mandatory that the image be actually displayed or printed at the size implied
-    by XResolution. It is up to the application to use this information as it wishes.</assert>
+   <assert test="{tags.tag[name=XResolution]}"> It is not mandatory that the image be actually displayed or printed at the size implied by XResolution. It is up to the application to use this information as it wishes.</assert>
   </rule>
 
   <rule id="TAG-282-0005" context="ifd" level="warning">
@@ -2172,8 +2177,7 @@ not be larger than 64K bytes.
    <description>It is not mandatory that the image be actually displayed or printed at the size implied
     by this parameter. It is up to the application to use this information as it wishes.</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>41</page></reference>
-   <assert test="{tags.tag[name=YResolution]}">It is not mandatory that the image be actually displayed or printed at the size implied
-    by YResolution. It is up to the application to use this information as it wishes.</assert>
+   <assert test="{tags.tag[name=YResolution]}">It is not mandatory that the image be actually displayed or printed at the size implied by YResolution. It is up to the application to use this information as it wishes.</assert>
   </rule>
 
   <rule id="TAG-283-0005" context="ifd" level="warning">
