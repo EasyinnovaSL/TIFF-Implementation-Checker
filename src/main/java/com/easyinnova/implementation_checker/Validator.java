@@ -215,7 +215,9 @@ public class Validator {
             //ok = false;
           } else {
             String value = op1.getValue();
-            if (value == null) return ok;
+            if (value == null) {
+              break;
+            }
             RuleElement op2 = new RuleElement(clausule.value.substring(clausule.value.indexOf(operation) + operation.length()).trim(), node, model);
             if (!op2.valid) {
               ok = false;
