@@ -377,7 +377,7 @@
    <reference><document>TIFF Baseline 6</document><section>Section 6: RGB Full Color Images</section><page>23</page></reference>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>40</page></reference>
    <assert test="{tags.tag[name=StripOffsets]}">Image IFD must have the tag StripOffsets</assert>
-   <hint>The image may be stored in tiles instead of strips. This is allowed with the Extended Baseline ISO.</hint>
+   <hint>Regenerate the image with strips, or if you accept tiles validate with the Extended Baseline standard</hint>
   </rule>
   
   <rule id="STRIPS-0002" context="ifd[class=image]" level="error">
@@ -389,7 +389,7 @@
    <reference><document>TIFF Baseline 6</document><section>Section 6: RGB Full Color Images</section><page>23</page></reference>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>19</page></reference>
    <assert test="{tags.tag[name=StripBYTECount]}">Image IFD must have the tag StripBYTECount</assert>
-   <hint>The image may be stored in tiles instead of strips. This is allowed with the Extended Baseline ISO.</hint>
+   <hint>Regenerate the image with strips, or if you accept tiles validate with the Extended Baseline standard</hint>
   </rule>
 
   <rule id="STRIPS-0003" context="ifd[strips=1]" level="error">
@@ -443,6 +443,7 @@
    <reference><document>TIFF Baseline 6</document><section>Section 3: Bilevel Images</section><page>17</page></reference>
    <reference><document>TIFF Baseline 6</document><section>Section 3: Bilevel Images</section><page>21</page></reference>
    <assert test="{tags.tag[name=Compression] &gt; 0} &amp;&amp; {tags.tag[name=Compression] &lt; 3} || {tags.tag[name=Compression] == 32773}">Invalid Compression for Bilevel image</assert>
+   <hint>Regenerate the image without compression, or if you accept compressed images, validate with the Extended Baseline standard</hint>
   </rule>
 
    <rule id="IFDB-0003" context="ifd[type=Bilevel]" level="error" experimental="true">
@@ -590,7 +591,7 @@
     either be stored as uncompressed data or compressed with the PackBits algorithm.</description>
    <reference><document>TIFF Baseline 6</document><section>Section 6: RGB Full Color Images</section><page>23</page></reference>
    <assert test="{tags.tag[name=Compression] == 1} || {tags.tag[name=Compression] == 32773}">Invalid Compression for RGB image</assert>
-   <hint>Compressed images are not allowed in TIFF Baseline 6. Try validating with another ISO.</hint>
+   <hint>Regenerate the image without compression, or if you accept compression validate with the Extended Baseline standard</hint>
   </rule>
   
   <rule id="IDFR-0003" context="ifd[type=RGB]" level="info">
@@ -917,6 +918,7 @@
    </description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>30-31</pages></reference>
    <assert test="{tags.tag[name=Compression] &gt; 0} &amp;&amp; {tags.tag[name=Compression] &lt; 3} || {tags.tag[name=Compression] == 32773}">The Compression tag must have a valid value</assert>
+   <hint>Regenerate the image without compression, or if you accept compression validate with the Extended Baseline standard</hint>
   </rule>
   
   <rule id="TAG-259-0004" context="ifd[class=image]" level="error">

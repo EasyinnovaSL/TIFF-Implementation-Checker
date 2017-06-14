@@ -58,6 +58,7 @@
   </description>
   <reference><document>Extended TIFF 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>30-31</pages></reference>
   <assert test="{tags.tag[name=Compression] &gt; 0} &amp;&amp; {tags.tag[name=Compression] &lt; 7} || {tags.tag[name=Compression] == 32773}">The Compression tag must have a valid value</assert>
+  <hint>Regenerate the image with a valid compression, or without any</hint>
  </rule>
  </rules>
 
@@ -176,7 +177,7 @@
    <title>T4Options only valid with CCIT compresion</title>
    <description>T4Options should only be used in with CCIT compresion</description>
    <reference><document>Extended TIFF 6</document><section>Section 11: CCITT Bilevel Encodings</section><page>51</page></reference>
-   <assert test="{tags.tag[name=Compression] != 3} &amp;&amp; {tags.tag[name=T4Options]}"></assert>
+   <assert test="{tags.tag[name=Compression] != 3} &amp;&amp; {tags.tag[name=T4Options]}">T4Options should only be used in with CCIT compresion</assert>
   </rule>
   
   <rule id="TAG-292-0004" context="ifd" level="warning">
@@ -225,7 +226,7 @@
    <title>T4Options only valid with CCIT compresion</title>
    <description>T4Options should only be used in with CCIT compresion</description>
    <reference><document>Extended TIFF 6</document><section>Section 11: CCITT Bilevel Encodings</section><page>52</page></reference>
-   <assert test="{tags.tag[name=Compression] != 4} &amp;&amp; {tags.tag[name=T6Options]}"></assert>
+   <assert test="{tags.tag[name=Compression] != 4} &amp;&amp; {tags.tag[name=T6Options]}">T4Options should only be used in with CCIT compresion</assert>
   </rule>
   
   <rule id="TAG-293-0004" context="ifd" level="warning">
@@ -1643,7 +1644,7 @@ SamplesPerPixel * TilesPerImage for PlanarConfiguration equal to 2</description>
     The restriction, imposed only when the tile width is shorter than the image width and when the JPEGInterchangeFormat Field is present and non-zero, states that the tile height must be equal to the height of one JPEG Minimum Coded Unit (MCU).
     This restriction ensures that TIFF files may be converted to JPEG interchange format without undergoing decompression.</description>
    <reference><document>Extended TIFF 6</document><section>Section 22: JPEG Compression</section><page>103</page></reference>
-   <assert test="{!tags.tag[name=JPEGInterchangeFormat]} || {tags.tag[name=JPEGInterchangeFormat] == 0} &amp;&amp; {tiles==1} || {tags.tag[name=TileWidth] &lt; tags.tag[name=ImageWidth]  &amp;&amp; {tags.tag[name=TileHeight] == tags.tag[name=JPEGRestartInterval] }"></assert>
+   <assert test="{!tags.tag[name=JPEGInterchangeFormat]} || {tags.tag[name=JPEGInterchangeFormat] == 0} &amp;&amp; {tiles==1} || {tags.tag[name=TileWidth] &lt; tags.tag[name=ImageWidth]  &amp;&amp; {tags.tag[name=TileHeight] == tags.tag[name=JPEGRestartInterval] }">Invalid JPEG interchange format</assert>
   </rule>
   
   <rule id="JPEG-0007" context="ifd[class=image]" level="error" >
@@ -1657,14 +1658,14 @@ SamplesPerPixel * TilesPerImage for PlanarConfiguration equal to 2</description>
    <title>JPEG tile width multiple of 8</title>
    <description>When JPEG compression is used tile width must be multiple of 8</description>
    <reference><document>Extended TIFF 6</document><section>Section 22: JPEG Compression</section><page>109</page></reference>
-   <assert test="{tags.tag[name=Compression] != 6} || {tags.tag[name=NewSubfileType] == 0}"></assert>
+   <assert test="{tags.tag[name=Compression] != 6} || {tags.tag[name=NewSubfileType] == 0}">Invalid compression</assert>
   </rule>
   
   <rule id="JPEG-0009" context="ifd[class=image]" level="error" >
    <title>JPEG tile width multiple of 8</title>
    <description>When JPEG compression is used tile width must be multiple of 8</description>
    <reference><document>Extended TIFF 6</document><section>Section 22: JPEG Compression</section><page>109</page></reference>
-   <assert test="{tags.tag[name=Compression] != 6} || {tags.tag[name=NewSubfileType] == 0}"></assert>
+   <assert test="{tags.tag[name=Compression] != 6} || {tags.tag[name=NewSubfileType] == 0}">Invalid compression</assert>
   </rule>
   
  </rules>
@@ -1993,7 +1994,7 @@ SamplesPerPixel * TilesPerImage for PlanarConfiguration equal to 2</description>
    <title>Valid PhotometricInterpretation for CIE L*a*b* </title>
    <description>An Image File directory containing a CIE L*a*b* image must have a value 8 in Photometric Interpretation tag </description>
    <reference><document>Extended TIFF 6</document><section>Section 23: CIE L*a*b* Images</section><page>111</page></reference>
-   <assert test="{tags.tag[name=PhotometricInterpretation] == 8}"></assert>
+   <assert test="{tags.tag[name=PhotometricInterpretation] == 8}">Invalid Photometric</assert>
   </rule>
   
   
@@ -2001,14 +2002,14 @@ SamplesPerPixel * TilesPerImage for PlanarConfiguration equal to 2</description>
    <title>Valid bits per sample and samples per Pixel</title>
    <description>A CIE L*a*b* image should have 3 Samples per pixel and 8 bits per sample unless an extra sample is defined</description>
    <reference><document>Extended TIFF 6</document><section>Section 23: CIE L*a*b* Images</section><page>111</page></reference>
-   <assert test="{!tags.tag[name=ExtraSample]} || {tags.tag[name=BitsPerSample] == '8,8,8'} &amp;&amp; {tags.tag[name=SamplesPerPixel] == 3}"></assert>
+   <assert test="{!tags.tag[name=ExtraSample]} || {tags.tag[name=BitsPerSample] == '8,8,8'} &amp;&amp; {tags.tag[name=SamplesPerPixel] == 3}">Invalid bits per sample and samples per Pixel</assert>
   </rule>
   
   <rule id="CIELab-0003" context="ifd[type=CIELab]" level="error" experimental="true">
    <title>Valid bits per sample and samples per Pixel</title>
    <description>A CIE L*a*b* image should have 3 Samples per pixel and 8 bits per sample unless an extra sample is defined</description>
    <reference><document>Extended TIFF 6</document><section>Section 23: CIE L*a*b* Images</section><page>111</page></reference>
-   <assert test="{tags.tag[name=ExtraSample]} &amp;&amp; {tags.tag[name=SamplesPerPixel] - tags.tag[name=ExtraSample] == 3}"></assert>
+   <assert test="{tags.tag[name=ExtraSample]} &amp;&amp; {tags.tag[name=SamplesPerPixel] - tags.tag[name=ExtraSample] == 3}">Invalid bits per sample and samples per Pixel</assert>
   </rule>
   
   <rule id="CIELab-0004" context="ifd[type=CIELab]" level="error">
