@@ -2046,7 +2046,7 @@
             <reference>
                 <section>Section 7.6.3: TIFF/IT-MP, TIFF/IT-MP/P1 and TIFF/IT-MP/P2 encoding</section><page>36</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator]} || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Monochrome continuous-tone picture (MP) file.</assert>
+            <assert test="{!tags.tag[name=ImageColorIndicator]} || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Monochrome continuous-tone picture (MP) file.</assert>
         </rule>
         <rule id="TIFF-IT-MP-0009" context="ifd[filetype=mp]" level="error">
             <title>TIFF/IT-MP ImageColorIndicator valid values</title>
@@ -2135,7 +2135,7 @@
             <reference>
                 <section>Section 7.5.3: TIFF/IT-HC, TIFF/IT-HC/P1 and TIFF/IT-HC/P2 encoding</section><page>34</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator]} || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Binary picture (BP) file.</assert>
+            <assert test="{!tags.tag[name=ImageColorIndicator]} || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 in Binary picture (BP) file.</assert>
         </rule>
         <rule id="TIFF-IT-BP-0008" context="ifd[filetype=bp]" level="error">
             <title>TIFF/IT-BP BackgroundColorValue mandatory</title>
@@ -2151,7 +2151,7 @@
             <reference>
                 <section>Section 7.7.3: TIFF/IT-BP, TIFF/IT-BP/P1 and TIFF/IT-BP/P2 encoding</section><page>38</page>
             </reference>
-            <assert test="{tags.tag[name=BackgroundColorIndicator] || {tags.tag[name=BackgroundColorIndicator]!=0} || {!tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 in Binary picture (BP) file.</assert>
+            <assert test="{!tags.tag[name=BackgroundColorIndicator] || {tags.tag[name=BackgroundColorIndicator]!=0} || {!tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 in Binary picture (BP) file.</assert>
         </rule>
     </rules>
 
@@ -2228,7 +2228,7 @@
             <reference>
                 <section>Section 7.8.3: TIFF/IT-BL and TIFF/IT-BL/P1 encoding</section><page>41</page>
             </reference>
-            <assert test="{tags.tag[name=ImageColorIndicator] || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 on a Binary line-art (BL) file.</assert>
+            <assert test="{!tags.tag[name=ImageColorIndicator] || {tags.tag[name=ImageColorIndicator]!=0} || {!tags.tag[name=ImageColorValue]}">ImageColorValue is forbidden if ImageColorIndicator is 0 on a Binary line-art (BL) file.</assert>
         </rule>
         <rule id="TIFF-IT-BL-0008" context="ifd[filetype=bl]" level="error">
             <title>TIFF/IT-BL BackgroundColorValue mandatory</title>
@@ -2244,7 +2244,7 @@
             <reference>
                 <section>Section 7.8.3: TIFF/IT-BL and TIFF/IT-BL/P1 encoding</section><page>41</page>
             </reference>
-            <assert test="{tags.tag[name=BackgroundColorIndicator] || {tags.tag[name=BackgroundColorIndicator]!=0} || {!tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 on a Binary line-art (BL) file.</assert>
+            <assert test="{!tags.tag[name=BackgroundColorIndicator] || {tags.tag[name=BackgroundColorIndicator]!=0} || {!tags.tag[name=BackgroundColorValue]}">BackgroundColorValue is forbidden if BackgroundColorIndicator is 0 on a Binary line-art (BL) file.</assert>
         </rule>
     </rules>
 
