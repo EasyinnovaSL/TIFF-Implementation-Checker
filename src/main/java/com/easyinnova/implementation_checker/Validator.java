@@ -216,6 +216,8 @@ public class Validator {
           } else {
             String value = op1.getValue();
             if (value == null) {
+              if (!rule.isError() && !rule.isCritical())
+                ok = false;
               break;
             }
             RuleElement op2 = new RuleElement(clausule.value.substring(clausule.value.indexOf(operation) + operation.length()).trim(), node, model);
