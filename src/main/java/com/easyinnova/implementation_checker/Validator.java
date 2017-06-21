@@ -290,19 +290,16 @@ public class Validator {
       ok = false;
     }
 
-    if (ok && rule.isWarning()) {
+    if (rule.isWarning()) {
       RuleResult rr = new RuleResult(false, node, rule);
       rr.setWarning(true);
       result.add(rr);
-    } else if (ok && rule.isInfo()) {
+    } else if (rule.isInfo()) {
       RuleResult rr = new RuleResult(false, node, rule);
       rr.setInfo(true);
       result.add(rr);
-    } else if (ok) {
-      RuleResult rr = new RuleResult(true, node, rule);
-      result.add(rr);
-    } else if (!rule.isWarning() && !rule.isInfo()) {
-      RuleResult rr = new RuleResult(false, node, rule);
+    } else {
+      RuleResult rr = new RuleResult(ok, node, rule);
       result.add(rr);
     }
 
