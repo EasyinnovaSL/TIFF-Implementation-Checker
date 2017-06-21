@@ -292,16 +292,23 @@ public class Validator {
       ok = false;
     }
 
-    if (rule.isWarning()) {
+    if (ok && rule.isWarning()) {
       RuleResult rr = new RuleResult(false, node, rule);
       rr.setWarning(true);
       result.add(rr);
-    } else if (rule.isInfo()) {
+    } else if (ok && rule.isInfo()) {
       RuleResult rr = new RuleResult(false, node, rule);
       rr.setInfo(true);
       result.add(rr);
-    } else {
-      RuleResult rr = new RuleResult(ok, node, rule);
+    } else if (ok) {
+      RuleResult rr = new RuleResult(true, node, rule);
+      result.add(rr);
+    } else if (!rule.isWarning() && !rule.isInfo()) {
+      RuleResult rr = new RuleResult(false, node, rule);
+      result.add(rr);
+    } else if (rule.getId().startsWith("pol-") && rule.isWarning()){
+      RuleResult rr = new RuleResult(true, node, rule);
+      rr.setWarning(true);
       result.add(rr);
     }
 
