@@ -195,9 +195,13 @@ public class TiffImplementationChecker {
 
       TagValue tv = ifd.getTag("StripOffsets");
       for (abstractTiffType att : tv.getValue()) {
-        int offset = Integer.parseInt(att.toString());
-        if (offset < 7 || offset > fileSize) {
-          tiffIfd.setCorrectStrips(-1);
+        try {
+          int offset = Integer.parseInt(att.toString());
+          if (offset < 7 || offset > fileSize) {
+            tiffIfd.setCorrectStrips(-1);
+          }
+        } catch (Exception e) {
+
         }
       }
 
