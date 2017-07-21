@@ -184,7 +184,7 @@ public class TiffImplementationChecker {
           }
           long len = 0, wid = 0;
           if (metadata.get("ImageLength").getCardinality() > 0) len = metadata.get("ImageLength").getFirstNumericValue();
-          if (metadata.get("ImageLength").getCardinality() > 0) wid = metadata.get("ImageWidth").getFirstNumericValue();
+          if (metadata.get("ImageWidth").getCardinality() > 0) wid = metadata.get("ImageWidth").getFirstNumericValue();
           if (calculatedImageLength != len * wid * pixelSize / 8) {
             tiffIfd.setCorrectStrips(0);
           }
@@ -224,9 +224,13 @@ public class TiffImplementationChecker {
           metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("SamplesPerPixel"))) {
         long tileLength = metadata.get(com.easyinnova.tiff.model.TiffTags.getTagId("TileLength")).getFirstNumericValue();
         long tileWidth = metadata.get(com.easyinnova.tiff.model.TiffTags.getTagId("TileWidth")).getFirstNumericValue();
-        long tilesPerImage =
-            ((metadata.get(com.easyinnova.tiff.model.TiffTags.getTagId("ImageWidth")).getFirstNumericValue() + tileWidth - 1) / tileWidth)
-                * ((metadata.get(com.easyinnova.tiff.model.TiffTags.getTagId("ImageLength")).getFirstNumericValue() + tileLength - 1) / tileLength);
+        long tilesPerImage = 0;
+        if (metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("ImageWidth")) && metadata.containsTagId(com.easyinnova.tiff.model.TiffTags.getTagId("ImageLength")))
+          if (metadata.get(com.easyinnova.tiff.model.TiffTags.getTagId("ImageWidth")).getCardinality() > 0 && metadata.get(com.easyinnova.tiff.model.TiffTags.getTagId("ImageLength")).getCardinality() > 0)
+            if (tileWidth > 0 && tileLength > 0)
+              tilesPerImage =
+                  ((metadata.get(com.easyinnova.tiff.model.TiffTags.getTagId("ImageWidth")).getFirstNumericValue() + tileWidth - 1) / tileWidth)
+                      * ((metadata.get(com.easyinnova.tiff.model.TiffTags.getTagId("ImageLength")).getFirstNumericValue() + tileLength - 1) / tileLength);
 
         // Check Plannar Configuration
         int id = com.easyinnova.tiff.model.TiffTags.getTagId("PlanarConfiguration");
