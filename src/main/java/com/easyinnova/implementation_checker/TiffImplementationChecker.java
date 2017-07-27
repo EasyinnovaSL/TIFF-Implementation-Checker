@@ -180,7 +180,12 @@ public class TiffImplementationChecker {
         if (metadata.get("Compression").getCardinality() > 0 && metadata.get("Compression").getFirstNumericValue() == 1 && pixelSize >= 8) {
           int calculatedImageLength = 0;
           for (int i = 0; i < nsc; i++) {
-            calculatedImageLength += metadata.get(id).getValue().get(i).toInt();
+            try {
+              calculatedImageLength += metadata.get(id).getValue().get(i).toInt();
+            } catch (Exception e) {
+              calculatedImageLength = 0;
+              break;
+            }
           }
           long len = 0, wid = 0;
           if (metadata.get("ImageLength").getCardinality() > 0) len = metadata.get("ImageLength").getFirstNumericValue();

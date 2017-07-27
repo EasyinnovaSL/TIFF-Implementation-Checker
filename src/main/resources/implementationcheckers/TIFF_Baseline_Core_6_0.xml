@@ -763,7 +763,14 @@
   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>35</page></reference>
    <assert test="{!tags.tag[name=BitsPerSample]}">BitsPerSample Tag is not defined. Then 1 bit per sample is assumed.</assert>
   </rule>
-  
+
+  <rule id="TAG-258-0005" context="tag[id=258]" level="warning">
+   <title>BitsPerSample valid Type</title>
+   <description>BitsPerSample Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">BitsPerSample type is not valid but it is compatible</assert>
+  </rule>
+
  </rules>
  
  <rules id="TAG-265">
@@ -802,6 +809,13 @@
    <description>CellLength should only be used in an image IFD defining a bilevel image</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
    <assert test="{tags.tag[name=CellLength]} &amp;&amp; {type != 'Bilevel'}">CellLength should only be used in an image IFD defining a bilevel image</assert>
+  </rule>
+
+  <rule id="TAG-265-0005" context="tag[id=265]" level="warning">
+   <title>CellLength valid Type</title>
+   <description>CellLength Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">CellLength type is not valid, but it is compatible</assert>
   </rule>
  </rules>
  
@@ -842,6 +856,14 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
    <assert test="{tags.tag[name=CellWidth]} &amp;&amp; {type != 'Bilevel'}">CellWidth should only be used in an image IFD defining a bilevel image</assert>
   </rule>
+
+  <rule id="TAG-264-0005" context="tag[id=264]" level="warning">
+   <title>CellWidth valid Type</title>
+   <description>CellWidth Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">CellWidth type is not valid, but it is compatible</assert>
+  </rule>
+
  </rules>
  
  <rules id="TAG-320">
@@ -879,6 +901,14 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
    <assert test="{tags.tag[name=ColorMap]} &amp;&amp; {type != 'Palette'}">ColorMap should only be used in an image IFD defining a palette image</assert>
   </rule>
+
+  <rule id="TAG-320-0004" context="tag[id=320]" level="warning">
+   <title>ColorMap valid Type</title>
+   <description>ColorMap Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">ColorMap type is not valid, but it is compatible</assert>
+  </rule>
+
  </rules>
  
  <rules id="TAG-259">
@@ -936,7 +966,14 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>29</page></reference>
    <assert test="{tags.tag[name=Compression]} &amp;&amp; {class != 'image'}">Compression should only be used in an image IFD</assert>
   </rule>
-  
+
+  <rule id="TAG-259-0006" context="tag[id=259]" level="warning">
+   <title>Compression valid Type</title>
+   <description>Compression Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>30</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">Compression type is not valid, but it is compatible</assert>
+  </rule>
+
  </rules>
  
  <rules id="TAG-33432">
@@ -1010,7 +1047,14 @@
    <description>ExtraSamples Tag type must be SHORT</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>31-32</pages></reference>
    <assert test="{type=='SHORT'}">ExtraSamples Tag type is not valid, a SHORT type is expected</assert>
-  </rule> 
+  </rule>
+
+  <rule id="TAG-338-0002" context="tag[id=338]" level="warning">
+   <title>ExtraSamples tag valid Type</title>
+   <description>ExtraSamples Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>31-32</pages></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">ExtraSamples Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
  
  <rules id="TAG-266">
@@ -1073,6 +1117,13 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>34</page></reference>
    <assert test="{tags.tag[name=FillOrder]} &amp;&amp; {class != 'image'}">FillOrder should only be used in an image IFD</assert>
   </rule>
+
+  <rule id="TAG-266-0006" context="tag[id=266]" level="warning">
+   <title>FillOrder tag valid Type</title>
+   <description>FillOrder Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>32-33</pages></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">FillOrder Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
  
  <rules id="TAG-289">
@@ -1097,7 +1148,13 @@
     <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>33</pages></reference>
     <assert test="{tags.tag[name=FreeByteCounts]}">Tag FreeByteCounts is not recommended for general interchange</assert>
    </rule>
-   
+
+  <rule id="TAG-289-0003" context="tag[id=289]" level="warning">
+   <title>FreeByteCounts tag valid Type</title>
+   <description>FreeByteCounts Tag type must be LONG</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>33</pages></reference>
+   <assert test="{type=='SHORT'} || {type=='BYTE'}">FreeByteCounts Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
  
  <rules id="TAG-288">
@@ -1121,6 +1178,13 @@
    <description>Tag FreeOffsets is not recommended for general interchange</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>33</pages></reference>
    <assert test="{tags.tag[name=FreeOffsets]}">Tag FreeOffsets is not recommended for general interchange</assert>
+  </rule>
+
+  <rule id="TAG-288-0003" context="tag[id=288]" level="warning">
+   <title>FreeOffsets tag valid Type</title>
+   <description>FreeOffsets Tag type must be LONG</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>33</pages></reference>
+   <assert test="{type=='SHORT'} || {type=='BYTE'}">FreeOffsets Tag type is not valid, but it is compatible</assert>
   </rule>
  </rules>
  
@@ -1163,6 +1227,13 @@
     currently ignored by most TIFF readers</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>33</page></reference>
    <assert test="{tags.tag[name=GrayResponseCurve]}">GrayResponseCurve it is currently ignored by most TIFF readers</assert>
+  </rule>
+
+  <rule id="TAG-291-0005" context="tag[id=291]" level="warning">
+   <title>GrayResponseCurve tag valid Type</title>
+   <description>GrayResponseCurve Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>33</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">GrayResponseCurve Tag type is not valid, but it is compatible</assert>
   </rule>
  </rules>
  
@@ -1217,6 +1288,13 @@
    <description>For historical reasons, the default is hundredths of a unit (value 2). However, for greater accuracy, thousandths of a unit (value 3) is recommended.</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>33-34</pages></reference>
    <assert test="{tags.tag[name=GrayResponseCurve]} &amp;&amp; {tags.tag[name=GrayResponseUnit] != 3} || {!tags.tag[name=GrayResponseUnit]}">GrayResponseUnit For historical reasons, the default is 2. However, for greater accuracy, 3 is recommended.</assert>
+  </rule>
+
+  <rule id="TAG-290-0006" context="tag[id=290]" level="warning">
+   <title>GrayResponseUnit tag valid Type</title>
+   <description>GrayResponseUnit Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>33-34</pages></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">GrayResponseUnit Tag type is not valid, but it is compatible</assert>
   </rule>
  </rules>
  
@@ -1293,7 +1371,14 @@
    <title>ImageLength requires and image ifd</title>
    <description>ImageLength should only be used in an image IFD</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>34</page></reference>
-   <assert test="{tags.tag[name=ImageWidth]} &amp;&amp; {class != 'image'}">ImageLength should only be used in an image IFD</assert>
+   <assert test="{tags.tag[name=ImageLength]} &amp;&amp; {class != 'image'}">ImageLength should only be used in an image IFD</assert>
+  </rule>
+
+  <rule id="TAG-257-0005" context="tag[id=257]" level="warning">
+   <title>ImageLength tag valid Type</title>
+   <description>ImageLength Tag type must be  SHORT or LONG</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>34</page></reference>
+   <assert test="{type=='BYTE'}">ImageLength Tag type is not valid, but it is compatible</assert>
   </rule>
  </rules>
  
@@ -1332,6 +1417,13 @@
    <description>ImageWidth should only be used in an image IFD</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>34</page></reference>
    <assert test="{tags.tag[name=ImageWidth]} &amp;&amp; {class != 'image'}">ImageWidth should only be used in an image IFD</assert>
+  </rule>
+
+  <rule id="TAG-256-0005" context="tag[id=256]" level="warning">
+   <title>ImageWidth tag valid Type</title>
+   <description>ImageWidth Tag type must be  SHORT or LONG</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>34</page></reference>
+   <assert test="{type=='BYTE'}">ImageWidth Tag type is not valid, but it is compatible</assert>
   </rule>
  </rules>
  
@@ -1401,6 +1493,13 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>35</page></reference>
    <assert test="{!tags.tag[name=MaxSampleValue]}">MaxSampleValue Tag is not defined. Then 2**(BitsPerSample) - 1 value is assumed</assert>
   </rule>
+
+  <rule id="TAG-281-0006" context="tag[id=281]" level="warning">
+   <title>MaxSampleValue tag valid Type</title>
+   <description>MaxSampleValue Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>35</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">MaxSampleValue Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
  
  <rules id="TAG-280">
@@ -1451,6 +1550,13 @@
    <description>MinSampleValue tag has a default value, if it is not present value 0 is assumed.</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>35</page></reference>
    <assert test="{!tags.tag[name=MinSampleValue]}">MinSampleValue Tag is not defined. Then 0 value is assumed</assert>
+  </rule>
+
+  <rule id="TAG-280-0006" context="tag[id=280]" level="warning">
+   <title>  MinSampleValue tag valid Type</title>
+   <description>  MinSampleValue Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>35</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}"> MinSampleValue Tag type is not valid, but it is compatible</assert>
   </rule>
  </rules>
 
@@ -1553,6 +1659,13 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>36</page></reference>
    <assert test="{!tags.tag[name=NewSubfileType]}">NewSubfileType Tag is not defined. Then a full resolution, single image, no transparency is assumed</assert>
   </rule>
+
+  <rule id="TAG-254-0010" context="tag[id=254]" level="warning">
+   <title>NewSubfileType tag valid Type</title>
+   <description>NewSubfileType Tag type must be LONG</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>36</page></reference>
+   <assert test="{type=='SHORT'} || {type=='BYTE'}">NewSubfileType Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
  
  <rules id="TAG-274">
@@ -1625,6 +1738,13 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>36</page></reference>
    <assert test="{!tags.tag[name=Orientation]}">Orientation Tag is not defined. Then 0th row represents the visual top of the image, and the 0th column represents the visual left-hand side</assert>
   </rule>
+
+  <rule id="TAG-274-0007" context="tag[id=274]" level="warning">
+   <title>Orientation tag valid Type</title>
+   <description>Orientation Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>36</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">Orientation Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
  
  <rules id="TAG-262">
@@ -1678,6 +1798,13 @@
    <description>PhotometricInterpretation should only be used in an image IFD</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>36</page></reference>
    <assert test="{tags.tag[name=PhotometricInterpretation]} &amp;&amp; {class != 'image'}">PhotometricInterpretation should only be used in an image IFD</assert>
+  </rule>
+
+  <rule id="TAG-262-0005" context="tag[id=262]" level="warning">
+   <title>PhotometricInterpretation tag valid Type</title>
+   <description>PhotometricInterpretation Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>37</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">PhotometricInterpretation Tag type is not valid, but it is compatible</assert>
   </rule>
  </rules>
  
@@ -1749,6 +1876,13 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>41</page></reference>
    <assert test="{!tags.tag[name=PlanarConfiguration]}">PlanarConfiguration Tag is not defined. Then the default unit (Chunky format) it is assumed</assert>
   </rule>
+
+  <rule id="TAG-284-0008" context="tag[id=284]" level="warning">
+   <title>PlanarConfiguration tag valid Type</title>
+   <description>PlanarConfiguration Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>38</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">PlanarConfiguration Tag type is not valid, but it is compatible</assert>
+  </rule>
 </rules>
  
  <rules id="TAG-296">
@@ -1812,6 +1946,13 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>41</page></reference>
    <assert test="{!tags.tag[name=ResolutionUnit]}">ResolutionUnit Tag is not defined. Then the default unit (Inch) it is assumed</assert>
   </rule>
+
+  <rule id="TAG-296-0007" context="tag[id=296]" level="warning">
+   <title>ResolutionUnit tag valid Type</title>
+   <description>ResolutionUnit Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>38</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">ResolutionUnit Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
  
  <rules id="TAG-278">
@@ -1851,6 +1992,13 @@
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>39</page></reference>
    <assert test="{!tags.tag[name=RowsPerStrip]} &amp;&amp; {strips == 1}">RowsPerStrip not defined, default value 2**32 - 1 is assumed</assert>
   </rule>
+
+  <rule id="TAG-278-0005" context="tag[id=278]" level="warning">
+   <title>RowsPerStrip tag valid Type</title>
+   <description>ResolutionUnit Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>39</page></reference>
+   <assert test="{type=='BYTE'}">RowsPerStrip Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
 
 <rules id="TAG-277">
@@ -1885,6 +2033,13 @@
   </description>
   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>41</page></reference>
   <assert test="{!tags.tag[name=SamplesPerPixel]}">SamplesPerPixel Tag is not defined. Then the default value (one SamplesPerPixel) it is assumed</assert>
+ </rule>
+
+ <rule id="TAG-277-0004" context="tag[id=277]" level="warning">
+  <title>SamplesPerPixel tag valid Type</title>
+  <description>SamplesPerPixel Tag type must be SHORT</description>
+  <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>39</page></reference>
+  <assert test="{type=='LONG'} || {type=='BYTE'}">SamplesPerPixel Tag type is not valid, but it is compatible</assert>
  </rule>
 </rules>
  
@@ -1930,6 +2085,12 @@ SamplesPerPixel * StripsPerImage for PlanarConfiguration equal to 2</description
    <assert test="{tags.tag[name=PlanarConfiguration] == 1} &amp;&amp; {tags.tag[name=StripBYTECount].cardinality == StripsPerImage} || {tags.tag[name=PlanarConfiguration] == 2} &amp;&amp; {tags.tag[name=StripBYTECount].cardinality == tags.tag[name=SamplesPerPixel] * StripsPerImage}">StripByteCounts invalid cardinality</assert>
   </rule>
 
+  <rule id="TAG-279-0004" context="tag[id=279]" level="warning">
+   <title>StripByteCounts tag valid Type</title>
+   <description>StripByteCounts Tag type must be SHORT or LONG</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>40</page></reference>
+   <assert test="{type=='BYTE'}">StripByteCounts Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
  
  <rules id="TAG-273">
@@ -1987,6 +2148,13 @@ not be larger than 64K bytes.
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>40</page></reference>
    <assert test="({tags.tag[name=StripOffsets].size &lt; 65537} &amp;&amp; {strips.size &lt; 65537}">StripByteCounts invalid cardinality</assert>
   </rule>
+
+  <rule id="TAG-273-0006" context="tag[id=279]" level="warning">
+   <title>StripOffsets tag valid Type</title>
+   <description>StripOffsets Tag type must be SHORT OR LONG</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>40</page></reference>
+   <assert test="{type=='BYTE'}">StripOffsets Tag type is not valid, but it is compatible</assert>
+  </rule>
  </rules>
  
  <rules id="TAG-255">
@@ -2035,6 +2203,13 @@ not be larger than 64K bytes.
    <description>This field is deprecated. The NewSubfileType field should be used instead</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>40-41</pages></reference>
    <assert test="{tags.tag[name=SubfileType]}">This field is deprecated. The NewSubfileType field should be used instead</assert>
+  </rule>
+
+  <rule id="TAG-255-0005" context="tag[id=255]" level="warning">
+   <title>SubfileType tag valid Type</title>
+   <description>SubfileType Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><pages>40-41</pages></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">SubfileType Tag type is not valid, but it is compatible</assert>
   </rule>
  </rules>
  
@@ -2091,6 +2266,13 @@ not be larger than 64K bytes.
    </description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>41</page></reference>
    <assert test="{!tags.tag[name=Threshholding]}">Threshholding Tag is not defined. Then the default value (No dithering or halftoning has been applied to the image data) it is assumed</assert>
+  </rule>
+
+  <rule id="TAG-263-0006" context="tag[id=263]" level="warning">
+   <title>Threshholding tag valid Type</title>
+   <description>Threshholding Tag type must be SHORT</description>
+   <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>41</page></reference>
+   <assert test="{type=='LONG'} || {type=='BYTE'}">Threshholding Tag type is not valid, but it is compatible</assert>
   </rule>
  </rules>
  
