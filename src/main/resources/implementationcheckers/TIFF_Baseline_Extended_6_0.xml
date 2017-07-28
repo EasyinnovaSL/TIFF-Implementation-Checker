@@ -101,7 +101,7 @@
     9 = ICC L*a*b*.
     10 = ITU L*a*b*.</description>
    <reference><document>Extended TIFF 6</document><section>Section 8: Baseline Field Reference Guide</section><page>37</page></reference>
-   <assert test="{tags.tag[name=PhotometricInterpretation] &gt; -1} &amp;&amp; {tags.tag[name=PhotometricInterpretation] &lt; 11}">Photometric Interpretation value must be between 0 and 10</assert>
+   <assert test="{tags.tag[name=PhotometricInterpretation] &gt; -1} &amp;&amp; {tags.tag[name=PhotometricInterpretation] &lt; 11} &amp;&amp; {tags.tag[name=PhotometricInterpretation] != 7}">Photometric Interpretation value must be between 0 and 10</assert>
   </rule>
  </rules>
  
@@ -301,11 +301,11 @@
    <assert test="{cardinality==2}">PageNumber cardinality is not valid, cardinality should be 2</assert>
   </rule>
   
-  <rule id="TAG-297-0003" context="ifd[class=image]" level="warning" experimental="true">
+  <rule id="TAG-297-0003" context="ifd[class=image]" level="warning">
    <title>PageNumber out of the document</title>
    <description>PageNumber value must be less than the total number of pages in the document</description>
    <reference><document>Extended TIFF 6</document><section>Section 12: Document Storage and Retrieval</section><page>55</page></reference>
-   <assert test="{tags.tag[name=PageNumber](0) &lt; tags.tag[name=PageNumber](1)}">Incoherent page number</assert>
+   <assert test="{tags.tag[name=PageNumber](0) &gt; tags.tag[name=PageNumber](1)}">Incoherent page number</assert>
   </rule>
   
    <rule id="TAG-297-0004" context="tag[id=297]" level="error" experimental="true">
@@ -329,11 +329,18 @@
    <assert test="">There is a missing page in a multiple page (e.g. facsimile) document.</assert>
   </rule>
   
-  <rule id="TAG-297-0007" context="tag[id=297]" level="warning" experimental="true">
+  <rule id="TAG-297-0007" context="ifd[class=image]" level="warning">
    <title>Incoherent total number of pages</title>
    <description>All the images in a multiple page (e.g. facsimile) document should have the same total number of pages</description>
    <reference><document>Extended TIFF 6</document><section>Section 12: Document Storage and Retrieval</section><page>55</page></reference>
-   <assert test="tag[name=PageNumber](1) != TOTALNUMBERPAGES">PageNumber Tag contains and invalid total number of pages</assert>
+   <assert test="{tags.tag[name=PageNumber](1) != $tiffValidationObject.numberImages$}">PageNumber Tag contains and invalid total number of pages</assert>
+  </rule>
+
+  <rule id="TAG-297-0008" context="ifd[class=image]" level="warning">
+   <title>PageNumber out of the document</title>
+   <description>PageNumber value must be less than the total number of pages in the document</description>
+   <reference><document>Extended TIFF 6</document><section>Section 12: Document Storage and Retrieval</section><page>55</page></reference>
+   <assert test="{tags.tag[name=PageNumber](0) == tags.tag[name=PageNumber](1)}">Incoherent page number</assert>
   </rule>
  </rules>
  
@@ -487,7 +494,7 @@
    <reference><document>Extended TIFF 6</document><section>Section 5: Palette-color Images</section><page>23</page></reference>
    <reference><document>Extended TIFF 6</document><section>Section 6: RGB Full Color Images</section><page>23</page></reference>
    <reference><document>Extended TIFF 6</document><section>Section 8: Baseline Field Reference Guide</section><page>40</page></reference>
-   <assert test="{tiles == 1} || {tags.tag[name=StripOffsets]}">Image IFD must have the tag StripOffsets</assert>
+   <assert test="{tiles == 1} || {strips == 1} &amp;&amp; {tags.tag[name=StripOffsets]}">Image IFD must have the tag StripOffsets</assert>
   </rule>
 
   <rule id="STRIPSEXT-0002" context="ifd[class=image]" level="error">
@@ -498,7 +505,7 @@
    <reference><document>Extended TIFF 6</document><section>Section 5: Palette-color Images</section><page>23</page></reference>
    <reference><document>Extended TIFF 6</document><section>Section 6: RGB Full Color Images</section><page>23</page></reference>
    <reference><document>Extended TIFF 6</document><section>Section 8: Baseline Field Reference Guide</section><page>19</page></reference>
-   <assert test="{tiles == 1} || {tags.tag[name=StripBYTECount]}">Image IFD must have the tag StripBYTECount</assert>
+   <assert test="{tiles == 1} || {strips == 1} &amp;&amp; {tags.tag[name=StripBYTECount]}">Image IFD must have the tag StripBYTECount</assert>
   </rule>
 
   <rule id="TILES-0001" context="ifd[class=image]" level="error">
@@ -508,7 +515,7 @@
     Use of tiles will therefore cause older TIFF readers to give up because they will have no way of knowing where the image data is or how it is organized. 
     Do not use both strip-oriented and tile-oriented fields in the same TIFF file.</description>
    <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><page>66</page></reference>
-   <assert test="{strips == 0} || {tiles == 0}">Image must be in either Strips or Tiles</assert>
+   <assert test="{strips == 1} || {tiles == 1}">Image must be in either Strips or Tiles</assert>
   </rule>
   
   <rule id="TILES-0002" context="ifd[class=image]" level="error">
@@ -518,7 +525,7 @@
     Use of tiles will therefore cause older TIFF readers to give up because they will have no way of knowing where the image data is or how it is organized. 
     Do not use both strip-oriented and tile-oriented fields in the same TIFF file.</description>
    <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><page>66</page></reference>
-   <assert test="{strips == 1} || {tiles == 1}">Image cannot be in both Strips and Tiles</assert>
+   <assert test="{strips == 0} || {tiles == 0}">Image cannot be in both Strips and Tiles</assert>
   </rule>
   
   <rule id="TILES-0003" context="ifd[tiles=1]" level="error">
@@ -532,28 +539,28 @@
    <title>TileOffsets required for tiled images</title>
    <description>TileOffsets is required in an Image File Directory(IDF) containing an image organized in tiles</description>
    <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><page>68</page></reference>
-   <assert test="{strips == 1} || {tags.tag[name=TileOffsets]}">Missing required TileOffsets tag for tiled images</assert>
+   <assert test="{strips == 1} || {tiles == 1} &amp;&amp; {tags.tag[name=TileOffsets]}">Missing required TileOffsets tag for tiled images</assert>
   </rule>
   
   <rule id="TILES-0005" context="ifd[tiles=1]" level="error">
    <title>TileByteCounts required for tiled images</title>
    <description>TileByteCounts is required in an Image File Directory(IDF) containing an image organized in tiles</description>
    <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><page>68</page></reference>
-   <assert test="{strips == 1} || {tags.tag[name=TileBYTECounts]}">Missing required TileByteCounts tag for tiled images</assert>
+   <assert test="{strips == 1} || {tiles == 1} &amp;&amp; {tags.tag[name=TileBYTECounts]}">Missing required TileByteCounts tag for tiled images</assert>
   </rule>
   
   <rule id="TILES-0006" context="ifd[tiles=1]" level="error">
    <title>TileWidth required for tiled images</title>
    <description>TileWidth is required in an Image File Directory(IDF) containing an image organized in tiles</description>
    <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><page>67</page></reference>
-   <assert test="{strips == 1} || {tags.tag[name=TileWidth]}">Missing required TileOffsets tag for tiled images</assert>
+   <assert test="{strips == 1} || {tiles == 1} &amp;&amp; {tags.tag[name=TileWidth]}">Missing required TileOffsets tag for tiled images</assert>
   </rule>
   
   <rule id="TILES-0007" context="ifd[tiles=1]" level="error">
    <title>TileLength required for tiled images</title>
    <description>TileLength is required in an Image File Directory(IDF) containing an image organized in tiles</description>
    <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><page>67</page></reference>
-   <assert test="{strips == 1} || {tags.tag[name=TileLength]}">Missing required TileLength tag for tiled images</assert>
+   <assert test="{strips == 1} || {tiles == 1} &amp;&amp; {tags.tag[name=TileLength]}">Missing required TileLength tag for tiled images</assert>
   </rule>
   
   <rule id="TILES-0008" context="ifd[tiles=1]" level="error">

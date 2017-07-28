@@ -233,9 +233,20 @@ public class Validator {
                 value = Double.parseDouble(value.split("/")[0]) / Double.parseDouble(value.split("/")[1]) + "";
               if (value2.contains("/"))
                 value2 = Double.parseDouble(value2.split("/")[0]) / Double.parseDouble(value2.split("/")[1]) + "";
-              if (operation.equals("==")) ok = value.equals(value2);
-              else if (operation.equals("!="))
-                ok = !value.equals(value2);
+              if (operation.equals("==")) {
+                try {
+                  ok = Double.parseDouble(value) == Double.parseDouble(value2);
+                } catch (Exception ex) {
+                  ok = value.equals(value2);
+                }
+              }
+              else if (operation.equals("!=")) {
+                try {
+                  ok = Double.parseDouble(value) != Double.parseDouble(value2);
+                } catch (Exception ex) {
+                  ok = !value.equals(value2);
+                }
+              }
               else if (operation.equals(">")) {
                 try {
                   ok = Double.parseDouble(value) > Double.parseDouble(value2);

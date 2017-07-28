@@ -711,7 +711,10 @@ public class TiffImplementationChecker {
     if (tv.getId() > 32767) tt.setPrivateTag("private");
     tt.setName(tv.getName());
     tt.setCardinality(tv.getCardinality());
-    tt.setType(com.easyinnova.tiff.model.TiffTags.getTagTypeName(tv.getType()));
+    if (com.easyinnova.tiff.model.TiffTags.getTagTypeName(tv.getType()) != null)
+      tt.setType(com.easyinnova.tiff.model.TiffTags.getTagTypeName(tv.getType()));
+    else
+      tt.setType("Unknown");
     try {
       if (tt.getType().equals("ASCII")) {
         boolean ascii7ok = true;
