@@ -621,7 +621,7 @@
    <title>TileWidth bigger than ImageWidth</title>
    <description>Note that ImageWidth can be less than TileWidth, although this means that the tiles are too large or that you are using tiling on really small images, neither of which is recommended</description>
    <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><page>67</page></reference>
-   <assert test="{tags.tag[name=ImageWidth]} &lt; {tags.tag[name=TileWidth]}">It is not recomend a TileWidth greater than the ImageWidth, this means that the tiles are too large or tiling is used on really small image</assert>
+   <assert test="{tags.tag[name=ImageWidth] &lt; tags.tag[name=TileWidth]}">It is not recommended a TileWidth greater than the ImageWidth, this means that the tiles are too large or tiling is used on really small image</assert>
   </rule>
   
   <rule id="TAG-322-0004" context="ifd[tiles=1]" level="error">
@@ -671,7 +671,7 @@
    <title>TileLength bigger than ImageLength</title>
    <description>Note that ImageLength can be less than TileLength, although this means that the tiles are too large or that you are using tiling on really small images, neither of which is recommended</description>
    <reference><document>Extended TIFF 6</document><section>Section 15: Tiled Images</section><page>67</page></reference>
-   <assert test="{tags.tag[name=ImageLength]} &lt; {tags.tag[name=TileLength]}">It is not recomend a TileLength bigger than the ImageLength, this means that the tiles are too large or tiling is used on really small image</assert>
+   <assert test="{tags.tag[name=ImageLength] &lt; tags.tag[name=TileLength]}">It is not recommended a TileLength bigger than the ImageLength, this means that the tiles are too large or tiling is used on really small image</assert>
   </rule>
   
   <rule id="TAG-323-0004" context="ifd[tiles=1]" level="error">

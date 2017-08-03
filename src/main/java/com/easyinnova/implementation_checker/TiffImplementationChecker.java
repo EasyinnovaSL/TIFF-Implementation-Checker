@@ -251,6 +251,8 @@ public class TiffImplementationChecker {
           }
         }
 
+
+
         TagValue tv = ifd.getTag("TileOffsets");
         for (abstractTiffType att : tv.getValue()) {
           int offset = Integer.parseInt(att.toString());

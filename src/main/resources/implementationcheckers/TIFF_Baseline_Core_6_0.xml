@@ -1983,7 +1983,7 @@
    <title>RowsPerStrip should only be in an image IFD</title>
    <description>RowsPerStrip tag should only be used in a Baseline Image IFD</description>
    <reference><document>TIFF Baseline 6</document><section>Section 8: Baseline Field Reference Guide</section><page>39</page></reference>
-   <assert test="{tags.tag[name=RowsPerStrip]} &amp;&amp; {strips != 1}">RowsPerStrip is required in an image IFD</assert>
+   <assert test="{tags.tag[name=RowsPerStrip]} &amp;&amp; {strips != 1}">RowsPerStrip should only be defined in an stripped image</assert>
   </rule>
 
   <rule id="TAG-278-0004" context="ifd[strips=1]" level="info">
