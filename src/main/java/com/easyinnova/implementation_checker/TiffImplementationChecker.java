@@ -31,6 +31,7 @@ import com.easyinnova.tiff.model.TagValue;
 import com.easyinnova.tiff.model.TiffDocument;
 import com.easyinnova.tiff.model.types.IFD;
 import com.easyinnova.tiff.model.types.IPTC;
+import com.easyinnova.tiff.model.types.IccProfile;
 import com.easyinnova.tiff.model.types.Rational;
 import com.easyinnova.tiff.model.types.abstractTiffType;
 
@@ -768,6 +769,19 @@ public class TiffImplementationChecker {
         tt.setGlobalParameters(ifd);
     } else if (tv.getId() == 700) {
       // XMP
+    } else if (tv.getId() == 34675) {
+      // ICC
+      String sclas = "";
+      String sname = "";
+      try
+      {
+        IccProfile icc = (IccProfile)tv.getValue().get(0);
+        sclas = icc.getProfileClass().toString();
+        sname = icc.getDescription();
+      } catch (Exception ex) {
+
+      }
+      tt.setValue(sclas + ":" + sname);
     } else if (tv.getId() == 33723) {
       // IPTC
       try {

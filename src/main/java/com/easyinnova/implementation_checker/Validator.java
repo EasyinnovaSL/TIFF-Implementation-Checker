@@ -237,14 +237,14 @@ public class Validator {
                 try {
                   ok = Double.parseDouble(value) == Double.parseDouble(value2);
                 } catch (Exception ex) {
-                  ok = value.equals(value2);
+                  ok = value.toLowerCase().equals(value2.toLowerCase());
                 }
               }
               else if (operation.equals("!=")) {
                 try {
                   ok = Double.parseDouble(value) != Double.parseDouble(value2);
                 } catch (Exception ex) {
-                  ok = !value.equals(value2);
+                  ok = !value.toLowerCase().equals(value2.toLowerCase());
                 }
               }
               else if (operation.equals(">")) {

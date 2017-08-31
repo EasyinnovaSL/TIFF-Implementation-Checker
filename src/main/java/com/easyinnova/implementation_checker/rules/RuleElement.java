@@ -51,28 +51,36 @@ public class RuleElement {
       elevator = fieldName.substring(0, fieldName.indexOf("^"));
       fieldName = fieldName.substring(fieldName.indexOf("^")+1);
     }
-    if (!fieldName.startsWith("$")) {
+    if (!fieldName.startsWith("$") && !fieldName.startsWith("'")) {
       while (fieldName.contains(".") || fieldName.contains("[") || fieldName.contains("(")) {
         int indexDot = fieldName.indexOf(".");
         int indexCla = fieldName.indexOf("[");
         int indexPar = fieldName.indexOf("(");
         if (indexDot > -1 && (indexCla == -1 || indexDot < indexCla) && (indexPar == -1 || indexDot < indexPar)) {
-          String parent = fieldName.substring(0, indexDot);
-          if (parent.length() > 0) {
-            if (node != null)
-              node = node.getChild(parent);
-            else
-            {
+          if (indexDot == 0) {
+            if (node != null) {
+              fieldName = fieldName.substring(1);
+              filter = null;
+            }
+            else {
               valid = false;
               break;
             }
+          } else {
+            String parent = fieldName.substring(0, indexDot);
+            if (parent.length() > 0) {
+              if (node != null)
+                node = node.getChild(parent);
+              else {
+                valid = false;
+                break;
+              }
+            }
+            fieldName = fieldName.substring(indexDot + 1);
           }
-          fieldName = fieldName.substring(indexDot + 1);
         } else if (indexCla > -1 && (indexPar == -1 || indexCla < indexPar)) {
           String filter = fieldName.substring(indexCla + 1);
           String remaining = filter.substring(filter.indexOf("]") + 1).trim();
-          if (filter.indexOf("]") == -1)
-            filter.toString();
           filter = filter.substring(0, filter.indexOf("]")).trim();
           this.filter = new Filter(filter);
           String currentfield = fieldName.substring(0, indexCla).trim();
@@ -178,7 +186,14 @@ public class RuleElement {
       String tagvalue = ttag.getValue().replace("[", "").replace("]", "");
       return tagvalue.split(",")[Integer.parseInt(index)];
     }
-    if (!node.hasChild(getName(), filter)) return null;
+    if (!node.hasChild(getName(), filter)) {
+      if (getName().equals("class") && node.getValue().contains(":")) {
+        return node.getValue().substring(0, node.getValue().indexOf(":"));
+      } else if (getName().equals("description") && node.getValue().contains(":")) {
+        return node.getValue().substring(node.getValue().indexOf(":") + 1);
+      }
+      return null;
+    }
     String op1value = node.getChild(getName(), filter).getValue();
     String value = operate(op1value);
     if (value != null) {
